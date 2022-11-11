@@ -26,8 +26,12 @@ end
 
 ---@param element BaseObject
 function BaseObject:append(element)
-  local index = table.insert(self.childrens, element)
-  element.parent = self
+  local index
+  if element.parent ~= self then
+    index = table.insert(self.childrens, element)
+    element.parent = self
+  end
+
   return element, index
 end
 
