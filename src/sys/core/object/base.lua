@@ -4,6 +4,7 @@
 --- DateTime: 2022/11/10 20:19
 ---
 
+local Point = require('sys.core.util.point')
 ---@class BaseObject: ClassicObject
 local BaseObject = require('sys.3rd.classic'):extend()
 
@@ -11,17 +12,14 @@ local CK_PREV_COLOR = 'prev_color'
 local CK_PREV_BLEND_MODE = 'prev_blend_mode'
 
 function BaseObject:new()
-  self.x = 0
-  self.y = 0
-  self.sx = 1
-  self.sy = 1
+  self.position = Point(0, 0)
+  self.scale = Point(1, 1)
   self.color = nil
   self.blend_mode = nil
   self.parent = nil
   self.childrens = {}
   self.context = {}
   self.visible = true
-  self.draw_mode = 'line'
 end
 
 ---@param element BaseObject
@@ -35,12 +33,16 @@ function BaseObject:append(element)
   return element, index
 end
 
+---@param x number
+---@param y number
 function BaseObject:setPosition(x, y)
-  self.x, self.y = x, y
+  self.position = Point(x or 0, y or 0)
 end
 
+---@param sx number
+---@param sy number
 function BaseObject:setScale(sx, sy)
-  self.sx, self.sy = sx, sy
+  self.scale = Point(sx or 1, sy or 1)
 end
 
 function BaseObject:setColor(color)
@@ -52,21 +54,17 @@ function BaseObject:setVisible(visible)
 end
 
 function BaseObject:drawPosition()
-  local x, y = self.x, self.y
   if self.parent then
-    local px, py = self.parent:drawPosition()
-    local sx, sy = self.parent:drawScale()
-    return (x * sx) + px, (y * sy) + py
+    return self.position:scale(self.parent:drawScale()):offset(self.parent:drawPosition())
   end
-  return x, y
+  return self.position
 end
 
 function BaseObject:drawScale()
   if self.parent then
-    local sx, sy = self.parent:drawScale()
-    return self.sx * sx, self.sy * sy
+    return self.scale:scale(self.parent:drawScale())
   end
-  return self.sx, self.sy
+  return self.scale
 end
 
 function BaseObject:draw()
@@ -95,13 +93,15 @@ function BaseObject:drawAfter()
 end
 
 function BaseObject:drawCall()
+  if not self.visible then
+    return
+  end
+
   self:drawBefore()
   self:draw()
   ---@param children BaseObject
   for _, children in ipairs(self.childrens) do
-    if children.visible then
-      children:drawCall()
-    end
+    children:drawCall()
   end
   self:drawAfter()
 end

@@ -5,6 +5,7 @@
 ---
 
 local Key = require('sys.core.input.key')
+local Point = require('sys.core.util.point')
 
 ---@class Mouse
 local Mouse = {
@@ -15,24 +16,17 @@ local Mouse = {
 }
 
 Mouse._status = {
-  x = 0,
-  y = 0,
-  wheel_x = 0,
-  wheel_y = 0,
+  position = Point(0, 0),
+  wheel = Point(0, 0),
   is_touch = false,
 }
 
 function Mouse.position()
-  local status = Mouse._status
-  return status.x, status.y
+  return Mouse._status.position
 end
 
-function Mouse.wheelX()
-  return Mouse._status.wheel_x
-end
-
-function Mouse.wheelY()
-  return Mouse._status.wheel_y
+function Mouse.wheel()
+  return Mouse._status.wheel
 end
 
 function Mouse.isTouch()
@@ -44,18 +38,16 @@ function Mouse.key(code)
 end
 
 function Mouse.callback_updated()
-  Mouse.wheel_dx = 0
-  Mouse.wheel_dy = 0
+  Mouse._status.wheel = Point(0, 0)
 end
 
 function Mouse.callback_moved(x, y, is_touch)
-  local status = Mouse._status
-  status.x, status.y, status.is_touch = x, y, is_touch
+  Mouse._status.position = Point(x, y)
+  Mouse._status.is_touch = is_touch
 end
 
 function Mouse.callback_wheel_moved(x, y)
-  local status = Mouse._status
-  status.wheel_x, status.wheel_y = x, y
+  Mouse._status.wheel = Point(x, y)
 end
 
 return Mouse

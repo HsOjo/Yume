@@ -6,7 +6,7 @@
 
 ---@class Sprite: Rotatable
 local Sprite = require('sys.core.object.rotatable'):extend()
-local Rect = require('sys.core.rect')
+local Rect = require('sys.core.element.rect')
 
 function Sprite:new(file)
   Sprite.super.new(self)
@@ -25,9 +25,9 @@ function Sprite:setOrigin(x, y)
 end
 
 function Sprite:draw()
-  local x, y = self:drawPosition()
-  local sx, sy = self:drawScale()
-  love.graphics.draw(self.image, x, y, self.r, sx, sy, self.ox, self.oy)
+  local pos = self:drawPosition()
+  local scale = self:drawScale()
+  love.graphics.draw(self.image, pos.x, pos.y, self.r, scale.x, scale.y, self.ox, self.oy)
 end
 
 return Sprite
