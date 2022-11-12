@@ -75,6 +75,8 @@ function Button:update()
       end
     end
   end
+
+  Button.super.update(self)
 end
 
 return Button

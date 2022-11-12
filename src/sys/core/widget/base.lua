@@ -41,6 +41,15 @@ function BaseWidget:emit(event, ...)
   end
 end
 
+function BaseWidget:update()
+  ---@param children BaseWidget
+  for _, children in pairs(self.childrens) do
+    if children:is(BaseWidget) then
+      children:update()
+    end
+  end
+end
+
 function BaseWidget:release()
   BaseWidget.super.release(self)
   for event, _ in pairs(self.events_functions) do
