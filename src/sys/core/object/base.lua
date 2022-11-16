@@ -22,15 +22,25 @@ function BaseObject:new()
   self.visible = true
 end
 
----@param element BaseObject
-function BaseObject:append(element)
+---@param child BaseObject
+function BaseObject:bind(child)
   local index
-  if element.parent ~= self then
-    index = table.insert(self.children, element)
-    element.parent = self
+  local parent = child.parent
+  if parent ~= self then
+    if parent ~= nil then
+      for i, v in ipairs(parent.children) do
+        if v == child then
+          table.remove(parent.children, i)
+          break
+        end
+      end
+    end
+
+    index = table.insert(self.children, child)
+    child.parent = self
   end
 
-  return element, index
+  return child, index
 end
 
 ---@param x number
@@ -68,7 +78,7 @@ function BaseObject:drawScale()
 end
 
 function BaseObject:draw()
-
+  self:drawChildren()
 end
 
 function BaseObject:drawBefore()
@@ -92,6 +102,13 @@ function BaseObject:drawAfter()
   end
 end
 
+function BaseObject:drawChildren()
+  ---@param child BaseObject
+  for _, child in pairs(self.children) do
+    child:drawCall()
+  end
+end
+
 function BaseObject:drawCall()
   if not self.visible then
     return
@@ -99,10 +116,6 @@ function BaseObject:drawCall()
 
   self:drawBefore()
   self:draw()
-  ---@param child BaseObject
-  for _, child in pairs(self.children) do
-    child:drawCall()
-  end
   self:drawAfter()
 end
 

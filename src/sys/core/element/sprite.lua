@@ -20,7 +20,7 @@ function Sprite:new(file)
   self._rotation = Rotation()
 
   ---@type Rect
-  self.rect = self:append(Rect())
+  self.rect = self:bind(Rect())
   self.rect:setVisible(false)
   self.rect:setSize(self.image:getWidth(), self.image:getHeight())
 end

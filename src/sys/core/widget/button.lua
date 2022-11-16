@@ -29,7 +29,7 @@ function Button:new(normal, hover, press, disabled)
   }
 
   for status, sprite in pairs(self.sprites) do
-    self.sprites[status] = self:append(sprite)
+    self.sprites[status] = self:bind(sprite)
   end
 
   self:setStatus(Button.STATUS_NORMAL)
