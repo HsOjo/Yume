@@ -5,11 +5,11 @@
 ---
 
 local Point = require('sys.core.util.point')
+
 ---@class BaseObject: ClassicObject
 local BaseObject = require('sys.3rd.classic'):extend()
-
-local CK_PREV_COLOR = 'prev_color'
-local CK_PREV_BLEND_MODE = 'prev_blend_mode'
+BaseObject.CK_PREV_COLOR = 'prev_color'
+BaseObject.CK_PREV_BLEND_MODE = 'prev_blend_mode'
 
 function BaseObject:new()
   self.position = Point(0, 0)
@@ -17,7 +17,7 @@ function BaseObject:new()
   self.color = nil
   self.blend_mode = nil
   self.parent = nil
-  self.childrens = {}
+  self.children = {}
   self.context = {}
   self.visible = true
 end
@@ -26,7 +26,7 @@ end
 function BaseObject:append(element)
   local index
   if element.parent ~= self then
-    index = table.insert(self.childrens, element)
+    index = table.insert(self.children, element)
     element.parent = self
   end
 
@@ -74,21 +74,21 @@ end
 function BaseObject:drawBefore()
   if self.color then
     local r, g, b, a = love.graphics.getColor()
-    self.context[CK_PREV_COLOR] = { r, g, b, a }
+    self.context[BaseObject.CK_PREV_COLOR] = { r, g, b, a }
     love.graphics.setColor(self.color)
   end
   if self.blend_mode then
-    self.context[CK_PREV_BLEND_MODE] = love.graphics.getBlendMode()
+    self.context[BaseObject.CK_PREV_BLEND_MODE] = love.graphics.getBlendMode()
     love.graphics.setBlendMode(self.blend_mode)
   end
 end
 
 function BaseObject:drawAfter()
   if self.color then
-    love.graphics.setColor(self.context[CK_PREV_COLOR])
+    love.graphics.setColor(self.context[BaseObject.CK_PREV_COLOR])
   end
   if self.blend_mode then
-    love.graphics.setBlendMode(self.context[CK_PREV_BLEND_MODE])
+    love.graphics.setBlendMode(self.context[BaseObject.CK_PREV_BLEND_MODE])
   end
 end
 
@@ -99,16 +99,16 @@ function BaseObject:drawCall()
 
   self:drawBefore()
   self:draw()
-  ---@param children BaseObject
-  for _, children in ipairs(self.childrens) do
-    children:drawCall()
+  ---@param child BaseObject
+  for _, child in pairs(self.children) do
+    child:drawCall()
   end
   self:drawAfter()
 end
 
 function BaseObject:release()
-  for _, children in ipairs(self.childrens) do
-    children:release()
+  for _, child in pairs(self.children) do
+    child:release()
   end
   self.parent = nil
   self.context = nil

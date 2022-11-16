@@ -4,7 +4,6 @@
 --- DateTime: 2022/11/12 19:24
 ---
 
-
 ---@class Point: ClassicObject
 local Point = require('sys.3rd.classic'):extend()
 

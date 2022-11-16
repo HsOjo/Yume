@@ -42,10 +42,10 @@ function BaseWidget:emit(event, ...)
 end
 
 function BaseWidget:update()
-  ---@param children BaseWidget
-  for _, children in pairs(self.childrens) do
-    if children:is(BaseWidget) then
-      children:update()
+  ---@param child BaseWidget
+  for _, child in pairs(self.children) do
+    if child:is(BaseWidget) then
+      child:update()
     end
   end
 end
