@@ -4,14 +4,20 @@
 --- DateTime: 2022/11/11 00:03
 ---
 
----@class Sprite: Rotatable
-local Sprite = require('sys.core.object.rotatable'):extend()
 local Rect = require('sys.core.element.rect')
+local Rotation = require('sys.core.object.rotation')
+
+---@class Sprite: BaseObject
+local Sprite = require('sys.core.object.base'):extend()
 
 function Sprite:new(file)
   Sprite.super.new(self)
+
   ---@type Texture|Drawable
   self.image = love.graphics.newImage(file)
+
+  ---@type Rotation
+  self._rotation = Rotation()
 
   ---@type Rect
   self.rect = self:append(Rect())
@@ -19,15 +25,20 @@ function Sprite:new(file)
   self.rect:setSize(self.image:getWidth(), self.image:getHeight())
 end
 
+function Sprite:setOrientation(radians)
+  self._rotation:setOrientation(radians)
+end
+
 function Sprite:setOrigin(x, y)
-  Sprite.super.setOrigin(self, x, y)
+  self._rotation:setOrigin(x, y)
   self.rect:setPosition(-x, -y)
 end
 
 function Sprite:draw()
   local pos = self:drawPosition()
   local scale = self:drawScale()
-  love.graphics.draw(self.image, pos.x, pos.y, self.r, scale.x, scale.y, self.ox, self.oy)
+  local rotation = self._rotation
+  love.graphics.draw(self.image, pos.x, pos.y, rotation.radians, scale.x, scale.y, rotation.origin:unpack())
 end
 
 return Sprite
