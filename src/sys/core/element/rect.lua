@@ -6,8 +6,8 @@
 
 local Math = require('sys.core.util.math')
 
----@class Rect: BaseObject
-local Rect = require('sys.core.object.base'):extend()
+---@class Rect: BaseDrawable
+local Rect = require('sys.core.base.drawable'):extend()
 
 function Rect:new(w, h)
   Rect.super.new(self)

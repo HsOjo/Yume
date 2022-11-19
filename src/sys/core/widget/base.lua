@@ -4,8 +4,8 @@
 --- DateTime: 2022/11/11 23:27
 ---
 
----@class BaseWidget: BaseObject
-local BaseWidget = require('sys.core.object.base'):extend()
+---@class BaseWidget: BaseDrawable
+local BaseWidget = require('sys.core.base.drawable'):extend()
 
 function BaseWidget:new()
   BaseWidget.super.new(self)

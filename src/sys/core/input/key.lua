@@ -4,8 +4,8 @@
 --- DateTime: 2022/11/11 22:15
 ---
 
----@class Key: ClassicObject
-local Key = require('sys.3rd.classic'):extend()
+---@class Key: BaseObject
+local Key = require('sys.core.base.object'):extend()
 Key._status = {}
 Key._prev_code = nil
 Key._last_code = nil

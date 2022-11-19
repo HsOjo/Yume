@@ -5,10 +5,10 @@
 ---
 
 local Rect = require('sys.core.element.rect')
-local Rotation = require('sys.core.object.rotation')
+local Rotation = require('sys.core.feature.rotation')
 
----@class Sprite: BaseObject
-local Sprite = require('sys.core.object.base'):extend()
+---@class Sprite: BaseDrawable
+local Sprite = require('sys.core.base.drawable'):extend()
 
 function Sprite:new(file)
   Sprite.super.new(self)

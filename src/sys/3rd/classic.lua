@@ -7,8 +7,7 @@
 -- the terms of the MIT license. See LICENSE for details.
 --
 
----@class ClassicObject
----@field super ClassicObject
+
 local Object = {}
 Object.__index = Object
 

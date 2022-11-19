@@ -7,8 +7,8 @@
 local json = require('sys.3rd.json')
 local Sprite = require('sys.core.element.sprite')
 
----@class ImagePack: BaseObject
-local ImagePack = require('sys.core.object.base'):extend()
+---@class ImagePack: BaseDrawable
+local ImagePack = require('sys.core.base.drawable'):extend()
 
 function ImagePack:new()
   ImagePack.super.new(self)

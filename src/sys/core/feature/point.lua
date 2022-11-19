@@ -4,8 +4,8 @@
 --- DateTime: 2022/11/12 19:24
 ---
 
----@class Point: ClassicObject
-local Point = require('sys.3rd.classic'):extend()
+---@class Point: BaseObject
+local Point = require('sys.core.base.object'):extend()
 
 function Point:new(x, y)
   self.x, self.y = x, y

@@ -4,10 +4,10 @@
 --- DateTime: 2022/11/11 01:01
 ---
 
-local Point = require('sys.core.util.point')
+local Point = require('sys.core.feature.point')
 
----@class Rotation: ClassicObject
-local Rotation = require('sys.3rd.classic'):extend()
+---@class Rotation: BaseObject
+local Rotation = require('sys.core.base.object'):extend()
 
 function Rotation:new()
   self.radians = 0
