@@ -4,6 +4,7 @@
 --- DateTime: 2022/11/10 20:19
 ---
 
+local Table = require('sys.core.util.table')
 local Point = require('sys.core.feature.point')
 
 ---@class BaseDrawable: BaseObject
@@ -28,12 +29,7 @@ function BaseDrawable:bind(child)
   local parent = child.parent
   if parent ~= self then
     if parent ~= nil then
-      for i, v in ipairs(parent.children) do
-        if v == child then
-          table.remove(parent.children, i)
-          break
-        end
-      end
+      Table.remove(parent.children, child)
     end
 
     index = table.insert(self.children, child)
