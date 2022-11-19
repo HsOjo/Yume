@@ -17,28 +17,26 @@ function Sprite:new(file)
   self.image = love.graphics.newImage(file)
 
   ---@type Rotation
-  self._rotation = Rotation()
+  self.rotation = Rotation()
 
   ---@type Rect
   self.rect = self:bind(Rect())
-  self.rect:setVisible(false)
   self.rect:setSize(self.image:getWidth(), self.image:getHeight())
 end
 
 function Sprite:setOrientation(radians)
-  self._rotation:setOrientation(radians)
+  self.rotation:setOrientation(radians)
 end
 
 function Sprite:setOrigin(x, y)
-  self._rotation:setOrigin(x, y)
+  self.rotation:setOrigin(x, y)
   self.rect:setPosition(-x, -y)
 end
 
 function Sprite:draw()
   local pos = self:drawPosition()
   local scale = self:drawScale()
-  local rotation = self._rotation
-  love.graphics.draw(self.image, pos.x, pos.y, rotation.radians, scale.x, scale.y, rotation.origin:unpack())
+  love.graphics.draw(self.image, pos.x, pos.y, self.rotation.radians, scale.x, scale.y, self.rotation.origin:unpack())
 end
 
 return Sprite
