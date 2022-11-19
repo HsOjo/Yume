@@ -4,56 +4,18 @@
 --- DateTime: 2022/11/12 19:13
 ---
 
-local Sprite = require('sys.core.element.sprite')
-local Mouse = require('sys.core.input.mouse')
+local Drag = require('sys.core.feature.drag')
 
 ---@class BaseWindow: BaseWidget
 local BaseWindow = require('sys.core.widget.base'):extend()
 
 function BaseWindow:new()
   BaseWindow.super.new(self)
-
-  ---@type Rect[]
-  self.movables = {}
-  ---@type Point
-  self.move_position = nil
-  ---@type Point
-  self.moving_base = nil
-  self.is_moving = false
-end
-
----@param movable Rect
-function BaseWindow:addMovable(movable)
-  table.insert(self.movables, movable)
-  return movable
-end
-
-function BaseWindow:moveUpdate()
-  if not self.is_moving then
-    if Mouse.key(Mouse.KEY_L):isDown() then
-      for _, movable in pairs(self.movables) do
-        if movable:testPoint(Mouse.position()) then
-          self.move_position = self.position
-          self.moving_base = Mouse.position()
-          self.is_moving = true
-        end
-      end
-    end
-  else
-    self:setPosition(
-      self.move_position:offset(
-        Mouse.position():offset(
-          self.moving_base:reverse()
-        )):unpack()
-    )
-    if Mouse.key(Mouse.KEY_L):isUp() then
-      self.is_moving = false
-    end
-  end
+  self.drag = Drag(self)
 end
 
 function BaseWindow:update()
-  self:moveUpdate()
+  self.drag:update()
   BaseWindow.super.update(self)
 end
 

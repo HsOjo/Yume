@@ -71,7 +71,7 @@ function Button:update()
     if Mouse.key(Mouse.KEY_L):isUp() then
       self:setStatus(Button.STATUS_NORMAL)
       if is_mouse_cover then
-        self:emit(Button.EVENT_CLICKED)
+        self.event:emit(Button.EVENT_CLICKED)
       end
     end
   end

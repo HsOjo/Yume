@@ -4,40 +4,21 @@
 --- DateTime: 2022/11/11 23:27
 ---
 
+local Event = require('sys.core.feature.event')
+
 ---@class BaseWidget: BaseDrawable
 local BaseWidget = require('sys.core.base.drawable'):extend()
 
 function BaseWidget:new()
   BaseWidget.super.new(self)
   self.focus = false
-  ---@type table<string, function[]>
-  self.events_functions = {}
+  self.event = Event()
 end
 
 function BaseWidget:setFocus(focus)
   self.focus = focus
   if focus and self.parent:is(BaseWidget) then
     self.parent:setFocus(focus)
-  end
-end
-
-function BaseWidget:on(event, func)
-  if not self.events_functions[event] then
-    self.events_functions[event] = {}
-  end
-  table.insert(self.events_functions[event], func)
-end
-
-function BaseWidget:off(event)
-  self.events_functions[event] = nil
-end
-
-function BaseWidget:emit(event, ...)
-  local event_functions = self.events_functions[event]
-  if event_functions then
-    for _, event_function in pairs(event_functions) do
-      event_function(...)
-    end
   end
 end
 
@@ -52,9 +33,7 @@ end
 
 function BaseWidget:release()
   BaseWidget.super.release(self)
-  for event, _ in pairs(self.events_functions) do
-    self:off(event)
-  end
+  self.event:release()
 end
 
 return BaseWidget
