@@ -16,6 +16,7 @@ function ImagePack:new()
   self.current_index = nil
 end
 
+---@return ImagePack
 function ImagePack.loadFromDirectory(dir, color)
   local info = json.decode(love.filesystem.read(dir .. '/info.json'))
   local sprite_dir = string.format('%s/image', dir)
@@ -45,24 +46,18 @@ function ImagePack:currentSprite()
   return self.sprites[self.current_index]
 end
 
-function ImagePack:batch(func)
-  for index, sprite in ipairs(self.sprites) do
-    func(sprite, index)
-  end
-end
-
 function ImagePack:setOrigin(x, y)
   ---@param sprite Sprite
-  self:batch(function(sprite)
+  for _, sprite in ipairs(self.sprites) do
     sprite:setOrigin(x, y)
-  end)
+  end
 end
 
 function ImagePack:setOrientation(radians)
   ---@param sprite Sprite
-  self:batch(function(sprite)
+  for _, sprite in ipairs(self.sprites) do
     sprite:setOrientation(radians)
-  end)
+  end
 end
 
 function ImagePack:draw()
