@@ -7,6 +7,7 @@
 --region Classic Dummy
 
 ---@class ClassicObject
+---@field super ClassicObject
 local ClassicObject = {}
 
 function ClassicObject:new()
@@ -24,6 +25,9 @@ end
 function ClassicObject:__tostring()
 end
 
+---@return ClassicObject
+function ClassicObject:__call(...)
+end
 --endregion
 
 ---@class BaseObject: ClassicObject
