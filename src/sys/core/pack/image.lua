@@ -5,7 +5,7 @@
 ---
 
 local json = require('sys.3rd.json')
-local Sprite = require('sys.core.element.sprite')
+local Sprite = require('sys.core.drawable.sprite')
 
 ---@class ImagePack: BaseDrawable
 local ImagePack = require('sys.core.base.drawable'):extend()
@@ -48,14 +48,14 @@ end
 
 function ImagePack:setOrigin(x, y)
   ---@param sprite Sprite
-  for _, sprite in ipairs(self.sprites) do
+  for _, sprite in pairs(self.sprites) do
     sprite:setOrigin(x, y)
   end
 end
 
 function ImagePack:setOrientation(radians)
   ---@param sprite Sprite
-  for _, sprite in ipairs(self.sprites) do
+  for _, sprite in pairs(self.sprites) do
     sprite:setOrientation(radians)
   end
 end

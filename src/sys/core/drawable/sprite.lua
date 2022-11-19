@@ -4,7 +4,7 @@
 --- DateTime: 2022/11/11 00:03
 ---
 
-local Rect = require('sys.core.element.rect')
+local Rect = require('sys.core.drawable.rect')
 local Rotation = require('sys.core.feature.rotation')
 
 ---@class Sprite: BaseDrawable

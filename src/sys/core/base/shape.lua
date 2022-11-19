@@ -16,4 +16,8 @@ function BaseShape:new()
   self.draw_mode = BaseShape.DrawMode.Line
 end
 
+function BaseShape:testPoint(point)
+
+end
+
 return BaseShape
