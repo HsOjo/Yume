@@ -6,7 +6,7 @@
 
 local Math = {}
 
-function Math.in_range(v, s, e)
+function Math.inRange(v, s, e)
   return v >= s and v < e
 end
 

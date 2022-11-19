@@ -29,10 +29,25 @@ end
 function Rect:testPoint(point)
   local pos = self:drawPosition()
   local w, h = self:drawSize()
-  return Math.in_range(
+
+  return Math.inRange(
     point.x, pos.x, pos.x + w
-  ) and Math.in_range(
+  ) and Math.inRange(
     point.y, pos.y, pos.y + h
+  )
+end
+
+---@param rect Rect
+function Rect:testRect(rect)
+  local pos_1 = self:drawPosition()
+  local w_1, h_1 = self:drawSize()
+  local pos_2 = rect:drawPosition()
+  local w_2, h_2 = rect:drawSize()
+
+  return Math.inRange(
+    pos_1.x, pos_2.x - w_1, pos_2.x + w_2
+  ) and Math.inRange(
+    pos_1.y, pos_2.y - h_1, pos_2.y + h_2
   )
 end
 
