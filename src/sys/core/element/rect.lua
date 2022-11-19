@@ -6,14 +6,13 @@
 
 local Math = require('sys.core.util.math')
 
----@class Rect: BaseDrawable
-local Rect = require('sys.core.base.drawable'):extend()
+---@class Rect: BaseShape
+local Rect = require('sys.core.base.shape'):extend()
 
 function Rect:new(w, h)
   Rect.super.new(self)
   self.w = w or 0
   self.h = h or 0
-  self.draw_mode = 'line'
 end
 
 function Rect:setSize(w, h)

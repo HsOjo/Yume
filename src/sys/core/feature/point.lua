@@ -25,6 +25,50 @@ function Point:reverse()
   return Point(-self.x, -self.y)
 end
 
+---@param point Point
+function Point:distance(point)
+  return math.sqrt(
+    math.pow(self.x - point.x, 2)
+      + math.pow(self.y - point.y, 2)
+  )
+end
+
+---@param point Point
+---@return number radians of two points.
+function Point:angel(point)
+  local pi = math.pi
+  if self.x == point.x then
+    if self.y > point.y then
+      return pi * 0.5
+    else
+      return pi * 1.5
+    end
+  elseif self.y == point.y then
+    if self.x > point.x then
+      return 0
+    else
+      return pi
+    end
+  else
+    local radians = math.atan((point.y - self.y) / (point.x - self.x))
+    if self.x < point.x and self.y > point.y then
+      return radians + pi
+    elseif self.x < point.x and self.y < point.y then
+      return radians + pi
+    elseif self.x > point.x and self.y < point.y then
+      return radians + 2 * pi
+    else
+      return radians
+    end
+  end
+end
+
+function Point:move(radians, distance)
+  local x = self.x + distance * math.cos(radians)
+  local y = self.y + distance * math.sin(radians)
+  return Point(x, y)
+end
+
 function Point:unpack()
   return self.x, self.y
 end
