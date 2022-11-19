@@ -5,12 +5,22 @@
 ---
 
 local Mouse = require('sys.core.input.mouse')
+local Event = require('sys.core.feature.event')
 
 ---@class Drag: BaseObject
 local Drag = require('sys.core.base.object'):extend()
+Drag.EVENT_BEGIN = 'begin'
+Drag.EVENT_MOVING = 'moving'
+Drag.EVENT_FINISHED = 'finished'
+
+Drag.MODE_FREE = 1
+Drag.MODE_HORIZONTAL = 2
+Drag.MODE_VERTICAL = 3
 
 ---@param object BaseDrawable
-function Drag:new(object)
+function Drag:new(object, mode)
+  self.event = Event()
+  self.mode = mode or Drag.MODE_FREE
   self.object = object
 
   ---@type BaseShape[]
@@ -28,7 +38,8 @@ function Drag:addShape(shape)
   return shape
 end
 
-function Drag:restorePosition()
+function Drag:cancel()
+  self.is_dragging = false
   if self.start_position then
     self.object:setPosition(self.start_position:unpack())
   end
@@ -42,19 +53,28 @@ function Drag:update()
           self.start_position = self.object.position
           self.mouse_start_position = Mouse.position()
           self.is_dragging = true
+          self.event:emit(Drag.EVENT_BEGIN)
           break
         end
       end
     end
   else
-    self.object:setPosition(
-      self.start_position:offset(
-        Mouse.position():offset(
-          self.mouse_start_position:reverse()
-        )):unpack()
-    )
+    local new_position = self.start_position:offset(
+      Mouse.position():offset(
+        self.mouse_start_position:reverse()
+      ))
+
+    if self.mode == Drag.MODE_HORIZONTAL then
+      new_position.y = self.start_position.y
+    elseif self.mode == Drag.MODE_VERTICAL then
+      new_position.x = self.start_position.x
+    end
+
+    self.event:emit(Drag.EVENT_MOVING, new_position)
+    self.object:setPosition(new_position:unpack())
     if Mouse.key(Mouse.KEY_L):isUp() then
       self.is_dragging = false
+      self.event:emit(Drag.EVENT_FINISHED, new_position)
     end
   end
 end
