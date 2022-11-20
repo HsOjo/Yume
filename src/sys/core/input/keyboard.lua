@@ -12,7 +12,7 @@ local Keyboard = {
 }
 
 function Keyboard.key(code)
-  return Key(Keyboard.KEY_PREFIX .. code)
+  return Key.get(Keyboard.KEY_PREFIX .. code)
 end
 
 return Keyboard

@@ -34,7 +34,7 @@ function Mouse.isTouch()
 end
 
 function Mouse.key(code)
-  return Key(Mouse.KEY_PREFIX .. code)
+  return Key.get(Mouse.KEY_PREFIX .. code)
 end
 
 function Mouse.callback_updated()

@@ -6,68 +6,71 @@
 
 ---@class Key: BaseObject
 local Key = require('sys.core.base.object'):extend()
-Key._status = {}
+Key._objects = {}
 Key._prev_code = nil
 Key._last_code = nil
 
+function Key.get(code)
+  local object = Key._objects[code]
+  if not object then
+    object = Key(code)
+    Key._objects[code] = object
+  end
+  return object
+end
+
 function Key:new(code)
   self.code = code
-  if not Key._status[code] then
-    Key._status[code] = {
-      is_press = false,
-      is_down = false,
-      is_up = false,
-      prev_down_time = 0,
-      last_down_time = 0,
-    }
-  end
-
-  self.status = Key._status[code]
+  self.is_press = false
+  self.is_down = false
+  self.is_up = false
+  self.prev_down_time = 0
+  self.last_down_time = 0
 end
 
 function Key:isDown()
-  return self.status.is_down
+  return self.is_down
 end
 
 function Key:isUp()
-  return self.status.is_up
+  return self.is_up
 end
 
 function Key:isPress()
-  return self.status.is_press
+  return self.is_press
 end
 
 function Key:isCombo(interval)
   interval = interval or 0.2
-  local combo_interval = self.status.last_down_time - self.status.prev_down_time
+  local combo_interval = self.last_down_time - self.prev_down_time
   return self:isDown() and self.code == Key._prev_code and combo_interval < interval
 end
 
 function Key.callback_updated()
-  for _, status in pairs(Key._status) do
-    status.is_down = false
-    status.is_up = false
+  ---@param object Key
+  for _, object in pairs(Key._objects) do
+    object.is_down = false
+    object.is_up = false
   end
 end
 
 function Key.callback_pressed(code)
-  local key = Key(code)
-  local status = key.status
-  if not status.is_press then
+  local key = Key.get(code)
+  if not key.is_press then
     Key._prev_code = Key._last_code
-    Key._last_code = key.status
+    Key._last_code = code
 
-    status.is_down = true
-    status.prev_down_time = status.last_down_time
-    status.last_down_time = love.timer.getTime()
+    key.is_down = true
+    key.prev_down_time = key.last_down_time
+    key.last_down_time = love.timer.getTime()
   end
-  status.is_press = true
+  key.is_press = true
 end
 
 function Key.callback_released(code)
-  local status = Key(code).status
-  status.is_press = false
-  status.is_up = true
+  local key = Key.get(code)
+  key.is_press = false
+  key.is_up = true
 end
 
 return Key

@@ -4,22 +4,23 @@
 --- DateTime: 2022/11/19 14:46
 ---
 
+local Color = require('sys.core.feature.color')
+
 ---@class ColorEffect: BaseEffect
 local ColorEffect = require('sys.core.effect.base'):extend()
 
-function ColorEffect:new(r, g, b, a)
-  self.color = { r, g, b, a or 255 }
-  self.prev_color = nil
+function ColorEffect:new(...)
+  self.color = Color(...)
+  self.prev_color = Color()
 end
 
 function ColorEffect:drawBefore()
-  local r, g, b, a = love.graphics.getColor()
-  self.prev_color = { r, g, b, a }
-  love.graphics.setColor(self.color)
+  self.prev_color:change(love.graphics.getColor())
+  love.graphics.setColor(self.color:unpack())
 end
 
 function ColorEffect:drawAfter()
-  love.graphics.setColor(self.prev_color)
+  love.graphics.setColor(self.prev_color:unpack())
 end
 
 return ColorEffect
