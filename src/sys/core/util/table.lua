@@ -7,6 +7,10 @@
 local json = require('sys.3rd.json')
 
 local Table = {}
+Table.unpack = table.unpack or unpack
+Table.pack = table.pack or function(...)
+  return { ... }
+end
 
 function Table.index(tbl, value)
   for k, v in pairs(tbl) do
