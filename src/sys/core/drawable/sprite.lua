@@ -16,7 +16,6 @@ function Sprite:new(file)
   ---@type Texture|Drawable
   self.image = love.graphics.newImage(file)
 
-  ---@type Rotation
   self.rotation = Rotation()
 
   ---@type Rect

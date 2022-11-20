@@ -12,6 +12,8 @@ local ImagePack = require('sys.core.base.drawable'):extend()
 
 function ImagePack:new()
   ImagePack.super.new(self)
+
+  ---@type Sprite[]
   self.sprites = {}
   self.current_index = nil
 end

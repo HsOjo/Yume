@@ -11,7 +11,6 @@ local Rotation = require('sys.core.base.object'):extend()
 
 function Rotation:new()
   self.radians = 0
-  ---@type Point
   self.origin = Point(0, 0)
 end
 

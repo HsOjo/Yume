@@ -18,6 +18,7 @@ function BaseDrawable:new()
   self.effects = {}
 
   self.parent = nil
+  ---@type BaseDrawable[]
   self.children = {}
 
   self.visible = true
@@ -42,14 +43,10 @@ function BaseDrawable:bind(child)
   return child, index
 end
 
----@param x number
----@param y number
 function BaseDrawable:setPosition(x, y)
   self.position:change(x or 0, y or 0)
 end
 
----@param sx number
----@param sy number
 function BaseDrawable:setScale(sx, sy)
   self.scale:change(sx or 1, sy or 1)
 end
@@ -92,7 +89,6 @@ function BaseDrawable:draw()
 end
 
 function BaseDrawable:drawChildren()
-  ---@param child BaseDrawable
   for _, child in pairs(self.children) do
     child:drawCall()
   end

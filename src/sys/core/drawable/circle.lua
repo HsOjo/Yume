@@ -4,8 +4,6 @@
 --- DateTime: 2022/11/19 17:36
 ---
 
-local Math = require('sys.core.util.math')
-
 ---@class Circle: BaseShape
 local Circle = require('sys.core.base.shape'):extend()
 
