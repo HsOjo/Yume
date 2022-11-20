@@ -5,6 +5,7 @@
 ---
 
 local json = require('sys.3rd.json')
+local Point = require('sys.core.feature.point')
 local Sprite = require('sys.core.drawable.sprite')
 
 ---@class ImagePack: BaseDrawable
@@ -15,6 +16,8 @@ function ImagePack:new()
 
   ---@type Sprite[]
   self.sprites = {}
+  ---@type Point[]
+  self.offsets = {}
   self.current_index = nil
 end
 
@@ -28,9 +31,10 @@ function ImagePack.loadFromDirectory(dir, color)
 
   local pack = ImagePack()
   for index, pos in ipairs(info) do
-    local sprite = Sprite(string.format('%s/%d.png', sprite_dir, index - 1))
-    sprite:setPosition(pos.x, pos.y)
-    pack.sprites[index] = pack:bind(sprite)
+    pack.offsets[index] = Point(pos.x, pos.y)
+    pack.sprites[index] = pack:bind(
+      Sprite(string.format('%s/%d.png', sprite_dir, index - 1))
+    )
   end
 
   pack:setCurrentFrame(1)
@@ -49,9 +53,11 @@ function ImagePack:currentSprite()
 end
 
 function ImagePack:setOrigin(x, y)
+  local origin = Point(x, y)
+  local offset_origin = Point()
   ---@param sprite Sprite
-  for _, sprite in pairs(self.sprites) do
-    sprite:setOrigin(x, y)
+  for index, sprite in ipairs(self.sprites) do
+    sprite:setOrigin(offset_origin:base(origin):offset(self.offsets[index], -1):unpack())
   end
 end
 
