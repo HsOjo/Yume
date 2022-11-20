@@ -18,18 +18,26 @@ BlendEffect.Mode = {
   ['None'] = 'none'
 }
 
-function BlendEffect:new(mode)
+BlendEffect.AlphaMode = {
+  ['AlphaMultiply'] = 'alphamultiply',
+  ['PreMultiplied'] = 'premultiplied'
+}
+
+function BlendEffect:new(mode, alpha_mode)
   self.mode = mode
+  self.alpha_mode = alpha_mode
+
   self.prev_mode = nil
+  self.prev_alpha_mode = nil
 end
 
 function BlendEffect:drawBefore()
-  self.prev_mode = love.graphics.getBlendMode()
-  love.graphics.setBlendMode(self.mode)
+  self.prev_mode, self.prev_alpha_mode = love.graphics.getBlendMode()
+  love.graphics.setBlendMode(self.mode, self.alpha_mode)
 end
 
 function BlendEffect:drawAfter()
-  love.graphics.setBlendMode(self.prev_mode)
+  love.graphics.setBlendMode(self.prev_mode, self.prev_alpha_mode)
 end
 
 return BlendEffect
