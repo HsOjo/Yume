@@ -4,6 +4,8 @@
 --- DateTime: 2022/11/19 20:25
 ---
 
+local json = require('sys.3rd.json')
+
 local Table = {}
 
 function Table.index(tbl, value)
@@ -25,6 +27,10 @@ function Table.map(tbl, func)
     new_tbl[k] = func(v)
   end
   return new_tbl
+end
+
+function Table.print(tbl)
+  print(json.encode(tbl))
 end
 
 return Table
