@@ -9,9 +9,9 @@ local Event = require('sys.core.feature.event')
 
 ---@class Drag: BaseObject
 local Drag = require('sys.core.base.object'):extend()
-Drag.EVENT_BEGIN = 'begin'
-Drag.EVENT_MOVING = 'moving'
-Drag.EVENT_FINISHED = 'finished'
+Drag.EVENT_BEGIN = 1
+Drag.EVENT_MOVING = 2
+Drag.EVENT_FINISHED = 3
 
 Drag.MODE_FREE = 1
 Drag.MODE_HORIZONTAL = 2

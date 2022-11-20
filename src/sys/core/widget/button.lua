@@ -14,7 +14,7 @@ Button.STATUS_HOVER = 2
 Button.STATUS_PRESS = 3
 Button.STATUS_DISABLED = 4
 
-Button.EVENT_CLICKED = 'clicked'
+Button.EVENT_CLICKED = 1
 
 function Button:new(normal, hover, press, disabled)
   Button.super.new(self)
