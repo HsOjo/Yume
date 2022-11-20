@@ -21,6 +21,9 @@ function BaseDrawable:new()
   self.children = {}
 
   self.visible = true
+
+  self._draw_position = Point()
+  self._draw_scale = Point()
 end
 
 ---@param child BaseDrawable
@@ -42,13 +45,13 @@ end
 ---@param x number
 ---@param y number
 function BaseDrawable:setPosition(x, y)
-  self.position = Point(x or 0, y or 0)
+  self.position:change(x or 0, y or 0)
 end
 
 ---@param sx number
 ---@param sy number
 function BaseDrawable:setScale(sx, sy)
-  self.scale = Point(sx or 1, sy or 1)
+  self.scale:change(sx or 1, sy or 1)
 end
 
 ---@param effect BaseEffect
@@ -69,17 +72,19 @@ function BaseDrawable:setVisible(visible)
 end
 
 function BaseDrawable:drawPosition()
+  local draw_position = self._draw_position:base(self.position)
   if self.parent then
-    return self.position:scale(self.parent:drawScale()):offset(self.parent:drawPosition())
+    return draw_position:scale(self.parent:drawScale()):offset(self.parent:drawPosition())
   end
-  return self.position
+  return draw_position
 end
 
 function BaseDrawable:drawScale()
+  local draw_scale = self._draw_scale:base(self.scale)
   if self.parent then
-    return self.scale:scale(self.parent:drawScale())
+    return draw_scale:scale(self.parent:drawScale())
   end
-  return self.scale
+  return draw_scale
 end
 
 function BaseDrawable:draw()

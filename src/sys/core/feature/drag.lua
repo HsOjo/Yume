@@ -4,6 +4,7 @@
 --- DateTime: 2022/11/19 19:38
 ---
 
+local Point = require('sys.core.feature.point')
 local Mouse = require('sys.core.input.mouse')
 local Event = require('sys.core.feature.event')
 
@@ -25,10 +26,9 @@ function Drag:new(object, mode)
 
   ---@type BaseShape[]
   self.shapes = {}
-  ---@type Point
-  self.start_position = nil
-  ---@type Point
-  self.mouse_start_position = nil
+  self.start_position = Point()
+  self.new_position = Point()
+  self.mouse_start_position = Point()
   self.is_dragging = false
 end
 
@@ -50,8 +50,8 @@ function Drag:update()
     if Mouse.key(Mouse.KEY_L):isDown() then
       for _, shape in pairs(self.shapes) do
         if shape:testPoint(Mouse.position()) then
-          self.start_position = self.object.position
-          self.mouse_start_position = Mouse.position()
+          self.start_position:base(self.object.position)
+          self.mouse_start_position:base(Mouse.position())
           self.is_dragging = true
           self.event:emit(Drag.EVENT_BEGIN)
           break
@@ -59,10 +59,10 @@ function Drag:update()
       end
     end
   else
-    local new_position = self.start_position:offset(
-      Mouse.position():offset(
-        self.mouse_start_position:reverse()
-      ))
+    local new_position = self.new_position
+    new_position:base(self.start_position)
+                :offset(Mouse.position())
+                :offset(self.mouse_start_position, -1)
 
     if self.mode == Drag.MODE_HORIZONTAL then
       new_position.y = self.start_position.y

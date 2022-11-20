@@ -11,18 +11,46 @@ function Point:new(x, y)
   self.x, self.y = x, y
 end
 
+function Point:change(x, y)
+  self.x, self.y = x, y
+  return self
+end
+
+function Point:unpack()
+  return self.x, self.y
+end
+
 ---@param point Point
-function Point:offset(point)
-  return Point(self.x + point.x, self.y + point.y)
+function Point:base(point)
+  return self:change(point:unpack())
+end
+
+function Point:copy()
+  return Point(self:unpack())
+end
+
+---@param point Point
+function Point:offset(point, scale)
+  scale = scale or 1
+  return self:change(
+    self.x + point.x * scale,
+    self.y + point.y * scale
+  )
 end
 
 ---@param point Point
 function Point:scale(point)
-  return Point(self.x * point.x, self.y * point.y)
+  return self:change(
+    self.x * point.x,
+    self.y * point.y
+  )
 end
 
-function Point:reverse()
-  return Point(-self.x, -self.y)
+function Point:move(radians, distance)
+  return self:change(
+    self.x + distance * math.cos(radians),
+    self.y + distance * math.sin(radians)
+  )
 end
 
 ---@param point Point
@@ -61,16 +89,6 @@ function Point:angel(point)
       return radians
     end
   end
-end
-
-function Point:move(radians, distance)
-  local x = self.x + distance * math.cos(radians)
-  local y = self.y + distance * math.sin(radians)
-  return Point(x, y)
-end
-
-function Point:unpack()
-  return self.x, self.y
 end
 
 return Point

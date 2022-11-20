@@ -20,7 +20,7 @@ function Rotation:setOrientation(radians)
 end
 
 function Rotation:setOrigin(x, y)
-  self.origin = Point(x, y)
+  self.origin:change(x, y)
 end
 
 return Rotation
