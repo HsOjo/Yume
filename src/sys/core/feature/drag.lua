@@ -60,9 +60,10 @@ function Drag:update()
     end
   else
     local new_position = self.new_position
-    new_position:base(self.start_position)
-                :offset(Mouse.position())
+    new_position:base(Mouse.position())
                 :offset(self.mouse_start_position, -1)
+                :scale(self.object:drawScale(), true)
+                :offset(self.start_position)
 
     if self.mode == Drag.MODE_HORIZONTAL then
       new_position.y = self.start_position.y

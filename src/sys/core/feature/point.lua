@@ -39,10 +39,15 @@ function Point:offset(point, scale)
 end
 
 ---@param point Point
-function Point:scale(point)
+function Point:scale(point, reverse)
+  local x, y = point:unpack()
+  if reverse then
+    x = 1 / x
+    y = 1 / y
+  end
   return self:change(
-    self.x * point.x,
-    self.y * point.y
+    self.x * x,
+    self.y * y
   )
 end
 
