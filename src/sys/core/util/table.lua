@@ -45,60 +45,74 @@ function Table.format(tbl, max_depth, stack, depth)
   depth = depth or 0
   max_depth = max_depth or 1
   stack = stack or {}
-  if stack[tbl] then
-    return string.format('<circular: %s>', string.format('%p', tbl))
-  end
-  stack[tbl] = true
 
+  local table_name = tbl.__name
   local table_len = Table.length(tbl)
   local is_list = table_len == #tbl
 
-  if table_len and depth > max_depth then
-    return string.format('%s<...>', tbl.__name or '')
+  if stack[tbl] or (table_len and depth > max_depth) then
+    if stack[tbl] then
+      table_name = '(circular)'
+    end
+    return string.format('%s(%p)', table_name or '(table)', tbl)
   end
 
+  stack[tbl] = true
+
   local indent = ''
-  for _ = 1, depth do
-    indent = indent .. '  '
+  local next_indent = ''
+  for _ = 0, depth do
+    indent = next_indent
+    next_indent = next_indent .. '  '
   end
+
+  local processor = {
+    ['number'] = tostring,
+    ['boolean'] = tostring,
+    ['string'] = function(x)
+      return string.format('"%s"', x)
+    end,
+    ['table'] = function(x)
+      return Table.format(x, max_depth, stack, depth + 1)
+    end,
+    ['other'] = function(x)
+      return string.format('("%s")(%p)', type(x), x)
+    end
+  }
 
   local content = ''
   for k, v in pairs(tbl) do
-    if type(k) == 'number' then
-      k = tostring(k)
-    end
-    if type(k) == 'string' and k:sub(0, 1) ~= '_' then
-      local str
-      if type(v) == 'table' then
-        str = Table.format(v, max_depth, stack, depth + 1)
-      else
-        str = tostring(v)
-      end
-
+    if tostring(k):sub(0, 1) ~= '_' then
       if content ~= '' then
         content = content .. ', '
       end
 
+      local value = (processor[type(v)] or processor.other)(v)
+
       if is_list then
-        content = content .. str
+        content = content .. value
       else
-        content = content .. string.format('\n%s  %s: %s', indent, k, str)
+        local key = (processor[type(k)] or processor.other)(k)
+        content = content .. string.format('\n%s[%s] = %s', next_indent, key, value)
       end
     end
   end
 
   stack[tbl] = false
   if is_list then
-    content = string.format('[%s]', content)
-  else
     if content ~= '' then
-      content = content .. '\n' .. indent
+      content = string.format(' %s ', content)
     end
     content = string.format('{%s}', content)
-  end
+  else
+    if content ~= '' then
+      content = string.format('%s\n%s', content, indent)
+    end
+    content = string.format('{%s}', content)
 
-  if tbl.__name then
-    content = string.format('%s(%p) %s', tbl.__name, tbl, content)
+    if table_name then
+      content = string.format('%s(%p) %s', table_name, tbl, content)
+    end
   end
 
   return content
