@@ -8,8 +8,8 @@ local Point = require('sys.core.feature.point')
 local Mouse = require('sys.core.input.mouse')
 local Event = require('sys.core.feature.event')
 
----@class Drag: BaseObject
-local Drag = require('sys.core.base.object'):extend()
+---@class Drag: BaseUpdatable
+local Drag = require('sys.core.base.updatable'):extend()
 Drag.EVENT_BEGIN = 1
 Drag.EVENT_MOVING = 2
 Drag.EVENT_FINISHED = 3

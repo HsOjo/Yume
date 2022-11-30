@@ -12,11 +12,7 @@ local BaseWindow = require('sys.core.widget.base'):extend()
 function BaseWindow:new()
   BaseWindow.super.new(self)
   self.drag = Drag(self)
-end
-
-function BaseWindow:update()
-  self.drag:update()
-  BaseWindow.super.update(self)
+  self:bind(self.drag)
 end
 
 return BaseWindow

@@ -22,15 +22,6 @@ function BaseWidget:setFocus(focus)
   end
 end
 
-function BaseWidget:update()
-  ---@param child BaseWidget
-  for _, child in pairs(self.children) do
-    if child:is(BaseWidget) then
-      child:update()
-    end
-  end
-end
-
 function BaseWidget:release()
   BaseWidget.super.release(self)
   self.event:release()

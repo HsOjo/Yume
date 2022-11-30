@@ -4,22 +4,18 @@
 --- DateTime: 2022/11/10 20:19
 ---
 
-local Table = require('sys.core.util.table')
 local Point = require('sys.core.feature.point')
 
----@class BaseDrawable: BaseObject
-local BaseDrawable = require('sys.core.base.object'):extend()
+---@class BaseDrawable: BaseUpdatable
+local BaseDrawable = require('sys.core.base.updatable'):extend()
 
 function BaseDrawable:new()
+  BaseDrawable.super.new(self)
   self.position = Point(0, 0)
   self.scale = Point(1, 1)
 
   ---@type BaseEffect[]
   self.effects = {}
-
-  self.parent = nil
-  ---@type BaseDrawable[]
-  self.children = {}
 
   self.visible = true
 
@@ -27,28 +23,12 @@ function BaseDrawable:new()
   self._draw_scale = Point()
 end
 
----@param child BaseDrawable
-function BaseDrawable:bind(child)
-  local index
-  local parent = child.parent
-  if parent ~= self then
-    if parent ~= nil then
-      Table.remove(parent.children, child)
-    end
-
-    index = table.insert(self.children, child)
-    child.parent = self
-  end
-
-  return child, index
-end
-
 function BaseDrawable:setPosition(x, y)
   self.position:change(x or 0, y or 0)
 end
 
 function BaseDrawable:setScale(sx, sy)
-  self.scale:change(sx or 1, sy or 1)
+  self.scale:change(sx or 1, sy or sx)
 end
 
 ---@param effect BaseEffect
@@ -90,7 +70,9 @@ end
 
 function BaseDrawable:drawChildren()
   for _, child in pairs(self.children) do
-    child:drawCall()
+    if child:is(BaseDrawable) then
+      child:drawCall()
+    end
   end
 end
 
@@ -106,13 +88,6 @@ function BaseDrawable:drawCall()
   for _, effect in pairs(self.effects) do
     effect:drawAfter()
   end
-end
-
-function BaseDrawable:release()
-  for _, child in pairs(self.children) do
-    child:release()
-  end
-  self.parent = nil
 end
 
 return BaseDrawable

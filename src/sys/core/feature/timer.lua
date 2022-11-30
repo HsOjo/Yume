@@ -6,8 +6,8 @@
 
 local Event = require('sys.core.feature.event')
 
----@class Timer: BaseObject
-local Timer = require('sys.core.base.object'):extend()
+---@class Timer: BaseUpdatable
+local Timer = require('sys.core.base.updatable'):extend()
 Timer.COUNT_INFINITY = -1
 
 Timer.EVENT_TIMEOUT = 1
@@ -48,10 +48,11 @@ function Timer:isFinished()
   return self.finished_count >= self.count and self.count ~= Timer.COUNT_INFINITY
 end
 
-function Timer:update()
+function Timer:update(dt)
+  Timer.super.update(self, dt)
   if self.is_started and not self:isFinished() then
     if self.elapsed_time < self.timeout then
-      self.elapsed_time = self.elapsed_time + love.timer.getDelta()
+      self.elapsed_time = self.elapsed_time + dt
       self.event:emit(Timer.EVENT_UPDATE, self.elapsed_time, self.timeout)
     else
       self.elapsed_time = 0
@@ -66,6 +67,7 @@ function Timer:update()
 end
 
 function Timer:release()
+  Timer.super.release(self)
   self.event:release()
 end
 

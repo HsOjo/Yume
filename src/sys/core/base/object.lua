@@ -37,4 +37,7 @@ function BaseObject:getClass()
   return self.__index
 end
 
+function BaseObject:release()
+end
+
 return BaseObject
