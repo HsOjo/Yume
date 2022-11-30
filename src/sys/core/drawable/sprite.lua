@@ -9,6 +9,7 @@ local Rotation = require('sys.core.feature.rotation')
 
 ---@class Sprite: BaseDrawable
 local Sprite = require('sys.core.base.drawable'):extend()
+Sprite.__name = 'Sprite'
 
 function Sprite:new(file)
   Sprite.super.new(self)

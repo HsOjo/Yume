@@ -10,6 +10,7 @@ local Sprite = require('sys.core.drawable.sprite')
 
 ---@class ImagePack: BaseDrawable
 local ImagePack = require('sys.core.base.drawable'):extend()
+ImagePack.__name='ImagePack'
 
 function ImagePack:new()
   ImagePack.super.new(self)

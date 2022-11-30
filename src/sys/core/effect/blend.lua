@@ -5,7 +5,8 @@
 ---
 
 ---@class BlendEffect: BaseEffect
-local BlendEffect = require('sys.core.effect.base'):extend()
+local BlendEffect = require('sys.core.base.effect'):extend()
+BlendEffect.__name = 'BlendEffect'
 BlendEffect.Mode = {
   ['Alpha'] = 'alpha',
   ['Add'] = 'add',

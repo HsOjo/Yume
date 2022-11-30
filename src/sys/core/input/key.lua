@@ -6,6 +6,7 @@
 
 ---@class Key: BaseObject
 local Key = require('sys.core.base.object'):extend()
+Key.__name = 'Key'
 Key._objects = {}
 Key._prev_code = nil
 Key._last_code = nil

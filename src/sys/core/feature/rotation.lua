@@ -8,6 +8,7 @@ local Point = require('sys.core.feature.point')
 
 ---@class Rotation: BaseObject
 local Rotation = require('sys.core.base.object'):extend()
+Rotation.__name = 'Rotation'
 
 function Rotation:new()
   self.radians = 0

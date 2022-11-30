@@ -30,14 +30,21 @@ function ClassicObject:__call(...)
 end
 --endregion
 
+local Table = require('sys.core.util.table')
+
 ---@class BaseObject: ClassicObject
 local BaseObject = require('sys.3rd.classic'):extend()
+BaseObject.__name = 'Object'
 
 function BaseObject:getClass()
   return self.__index
 end
 
 function BaseObject:release()
+end
+
+function BaseObject:__tostring()
+  return Table.format(self)
 end
 
 return BaseObject

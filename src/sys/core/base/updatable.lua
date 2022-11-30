@@ -6,6 +6,7 @@
 
 ---@class BaseUpdatable: BaseNestable
 local BaseUpdatable = require('sys.core.base.nestable'):extend()
+BaseUpdatable.__name = 'Updatable'
 
 function BaseUpdatable:new()
   BaseUpdatable.super.new(self)

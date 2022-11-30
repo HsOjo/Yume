@@ -8,6 +8,7 @@ local Point = require('sys.core.feature.point')
 
 ---@class BaseDrawable: BaseUpdatable
 local BaseDrawable = require('sys.core.base.updatable'):extend()
+BaseDrawable.__name = 'Drawable'
 
 function BaseDrawable:new()
   BaseDrawable.super.new(self)

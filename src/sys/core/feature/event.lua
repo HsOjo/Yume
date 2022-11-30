@@ -8,6 +8,7 @@ local Table = require('sys.core.util.table')
 
 ---@class Event: BaseObject
 local Event = require('sys.core.base.object'):extend()
+Event.__name = 'Event'
 
 function Event:new()
   ---@type table<string, function[]>

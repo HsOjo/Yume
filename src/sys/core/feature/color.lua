@@ -6,6 +6,7 @@
 
 ---@class Color: BaseObject
 local Color = require('sys.core.base.object'):extend()
+Color.__name = 'Color'
 
 function Color:new(r, g, b, a)
   self.r = r or 0

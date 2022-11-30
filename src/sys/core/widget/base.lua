@@ -8,6 +8,7 @@ local Event = require('sys.core.feature.event')
 
 ---@class BaseWidget: BaseDrawable
 local BaseWidget = require('sys.core.base.drawable'):extend()
+BaseWidget.__name = 'Widget'
 
 function BaseWidget:new()
   BaseWidget.super.new(self)

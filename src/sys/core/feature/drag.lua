@@ -10,6 +10,7 @@ local Event = require('sys.core.feature.event')
 
 ---@class Drag: BaseUpdatable
 local Drag = require('sys.core.base.updatable'):extend()
+Drag.__name = 'Drag'
 Drag.EVENT_BEGIN = 1
 Drag.EVENT_MOVING = 2
 Drag.EVENT_FINISHED = 3

@@ -8,6 +8,7 @@ local Table = require('sys.core.util.table')
 
 ---@class BaseNestable: BaseObject
 local BaseNestable = require('sys.core.base.object'):extend()
+BaseNestable.__name = 'Nestable'
 
 function BaseNestable:new()
   self.parent = nil

@@ -8,6 +8,7 @@ local Drag = require('sys.core.feature.drag')
 
 ---@class BaseWindow: BaseWidget
 local BaseWindow = require('sys.core.widget.base'):extend()
+BaseWindow.__name = 'Window'
 
 function BaseWindow:new()
   BaseWindow.super.new(self)

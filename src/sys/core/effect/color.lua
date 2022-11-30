@@ -7,7 +7,8 @@
 local Color = require('sys.core.feature.color')
 
 ---@class ColorEffect: BaseEffect
-local ColorEffect = require('sys.core.effect.base'):extend()
+local ColorEffect = require('sys.core.base.effect'):extend()
+ColorEffect.__name = 'ColorEffect'
 
 function ColorEffect:new(...)
   self.color = Color(...)

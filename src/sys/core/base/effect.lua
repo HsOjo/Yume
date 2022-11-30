@@ -6,6 +6,7 @@
 
 ---@class BaseEffect: BaseObject
 local BaseEffect = require('sys.core.base.object'):extend()
+BaseEffect.__name = 'Effect'
 
 function BaseEffect:new()
 

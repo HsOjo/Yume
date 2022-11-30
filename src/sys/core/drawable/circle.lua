@@ -6,6 +6,7 @@
 
 ---@class Circle: BaseShape
 local Circle = require('sys.core.base.shape'):extend()
+Circle.__name = 'Circle'
 
 function Circle:new(radius)
   Circle.super.new(self)

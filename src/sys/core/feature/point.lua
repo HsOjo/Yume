@@ -6,6 +6,7 @@
 
 ---@class Point: BaseObject
 local Point = require('sys.core.base.object'):extend()
+Point.__name = 'Point'
 
 function Point:new(x, y)
   self.x, self.y = x, y

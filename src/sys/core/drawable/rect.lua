@@ -8,6 +8,7 @@ local Math = require('sys.core.util.math')
 
 ---@class Rect: BaseShape
 local Rect = require('sys.core.base.shape'):extend()
+Rect.__name = 'Rect'
 
 function Rect:new(w, h)
   Rect.super.new(self)

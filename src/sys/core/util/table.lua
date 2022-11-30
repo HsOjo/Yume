@@ -33,8 +33,79 @@ function Table.map(tbl, func)
   return new_tbl
 end
 
+function Table.length(tbl)
+  local i = 0
+  for _, _ in pairs(tbl) do
+    i = i + 1
+  end
+  return i
+end
+
+function Table.format(tbl, max_depth, stack, depth)
+  depth = depth or 0
+  max_depth = max_depth or 1
+  stack = stack or {}
+  if stack[tbl] then
+    return string.format('<circular: %s>', string.format('%p', tbl))
+  end
+  stack[tbl] = true
+
+  local table_len = Table.length(tbl)
+  local is_list = table_len == #tbl
+
+  if table_len and depth > max_depth then
+    return string.format('%s<...>', tbl.__name or '')
+  end
+
+  local indent = ''
+  for _ = 1, depth do
+    indent = indent .. '  '
+  end
+
+  local content = ''
+  for k, v in pairs(tbl) do
+    if type(k) == 'number' then
+      k = tostring(k)
+    end
+    if type(k) == 'string' and k:sub(0, 1) ~= '_' then
+      local str
+      if type(v) == 'table' then
+        str = Table.format(v, max_depth, stack, depth + 1)
+      else
+        str = tostring(v)
+      end
+
+      if content ~= '' then
+        content = content .. ', '
+      end
+
+      if is_list then
+        content = content .. str
+      else
+        content = content .. string.format('\n%s  %s: %s', indent, k, str)
+      end
+    end
+  end
+
+  stack[tbl] = false
+  if is_list then
+    content = string.format('[%s]', content)
+  else
+    if content ~= '' then
+      content = content .. '\n' .. indent
+    end
+    content = string.format('{%s}', content)
+  end
+
+  if tbl.__name then
+    content = string.format('%s(%p) %s', tbl.__name, tbl, content)
+  end
+
+  return content
+end
+
 function Table.print(tbl)
-  print(json.encode(tbl))
+  print(Table.format(tbl))
 end
 
 return Table

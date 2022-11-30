@@ -8,6 +8,7 @@ local Mouse = require('sys.core.input.mouse')
 
 ---@class Button: BaseWidget
 local Button = require('sys.core.widget.base'):extend()
+Button.__name = 'Button'
 
 Button.STATUS_NORMAL = 1
 Button.STATUS_HOVER = 2

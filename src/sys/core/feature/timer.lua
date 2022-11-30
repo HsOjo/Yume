@@ -8,6 +8,7 @@ local Event = require('sys.core.feature.event')
 
 ---@class Timer: BaseUpdatable
 local Timer = require('sys.core.base.updatable'):extend()
+Timer.__name = 'Timer'
 Timer.COUNT_INFINITY = -1
 
 Timer.EVENT_TIMEOUT = 1

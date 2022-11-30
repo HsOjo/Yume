@@ -6,6 +6,7 @@
 
 ---@class BaseShape: BaseDrawable
 local BaseShape = require('sys.core.base.drawable'):extend()
+BaseShape.__name = 'Shape'
 BaseShape.DrawMode = {
   ['Fill'] = 'fill',
   ['Line'] = 'line',
