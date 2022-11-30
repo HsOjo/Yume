@@ -17,6 +17,7 @@ Timer.EVENT_FINISHED = 3
 
 ---@param callback function
 function Timer:new(callback, timeout, count)
+  Timer.super.new(self)
   self.event = Event()
   self.event:on(Timer.EVENT_TIMEOUT, callback)
 
