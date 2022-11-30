@@ -14,12 +14,12 @@ end
 
 ---@param point Point
 function Circle:testPoint(point)
-  return self.position:distance(point) <= self:drawRadius()
+  return self:drawPosition():distance(point) <= self:drawRadius()
 end
 
 function Circle:drawRadius()
   local scale = self:drawScale()
-  return self.radius * scale.x * scale.y
+  return self.radius * (scale.x + scale.y) * 0.5
 end
 
 function Circle:draw()
