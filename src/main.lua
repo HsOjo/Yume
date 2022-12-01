@@ -10,6 +10,8 @@ local Keyboard = require('sys.core.input.keyboard')
 
 function love.load()
   test = require('sys.game.test.drag')()
+  io.stdout:setvbuf("no")
+
   test:setScale(2)
   print(test)
 end
