@@ -5,6 +5,9 @@
 ---
 
 ---@class BaseUpdatable: BaseNestable
+---@field super BaseNestable
+---@field parent BaseUpdatable
+---@field children BaseUpdatable[]
 local BaseUpdatable = require('sys.core.base.nestable'):extend()
 BaseUpdatable.__name = 'Updatable'
 

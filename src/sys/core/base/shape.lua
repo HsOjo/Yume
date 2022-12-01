@@ -5,6 +5,7 @@
 ---
 
 ---@class BaseShape: BaseDrawable
+---@field super: BaseDrawable
 local BaseShape = require('sys.core.base.drawable'):extend()
 BaseShape.__name = 'Shape'
 BaseShape.DrawMode = {
@@ -17,8 +18,10 @@ function BaseShape:new()
   self.draw_mode = BaseShape.DrawMode.Line
 end
 
+---@param point Point
+---@return boolean
 function BaseShape:testPoint(point)
-
+  return nil
 end
 
 return BaseShape

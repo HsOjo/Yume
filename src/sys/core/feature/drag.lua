@@ -7,6 +7,7 @@
 local Point = require('sys.core.feature.point')
 local Mouse = require('sys.core.input.mouse')
 local Event = require('sys.core.feature.event')
+local BaseDrawable = require('sys.core.base.drawable')
 
 ---@class Drag: BaseUpdatable
 local Drag = require('sys.core.base.updatable'):extend()
@@ -62,9 +63,12 @@ function Drag:update()
   else
     local new_position = self.new_position
     new_position:base(Mouse.position()):offset(self.mouse_start_position, -1)
-    if self.object.parent then
-      new_position:scale(self.object.parent:drawScale(), true)
+
+    local parent = self.object.parent
+    if parent and parent:is(BaseDrawable) then
+      new_position:scale(parent:drawScale(), true)
     end
+
     new_position:offset(self.start_position)
 
     if self.mode == Drag.MODE_HORIZONTAL then

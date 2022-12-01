@@ -31,6 +31,7 @@ function ImagePack.loadFromDirectory(dir, color)
   end
 
   local pack = ImagePack()
+  ---@param pos table
   for index, pos in ipairs(info) do
     pack.offsets[index] = Point(pos.x, pos.y)
     pack.sprites[index] = pack:bind(

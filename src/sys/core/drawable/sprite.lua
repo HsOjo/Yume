@@ -14,7 +14,7 @@ Sprite.__name = 'Sprite'
 function Sprite:new(file)
   Sprite.super.new(self)
 
-  ---@type Texture|Drawable
+  ---@type Texture
   self.image = love.graphics.newImage(file)
 
   self.rotation = Rotation()

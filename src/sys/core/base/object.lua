@@ -5,34 +5,43 @@
 ---
 
 --region Classic Dummy
-
 ---@class ClassicObject
 ---@field super ClassicObject
+---@field __index ClassicObject
+---@field __name string
 local ClassicObject = {}
 
 function ClassicObject:new()
 end
 
+---@return ClassicObject
 function ClassicObject:extend()
+  return nil
 end
 
 function ClassicObject:implement(...)
 end
 
+---@return boolean
 function ClassicObject:is(T)
+  return nil
 end
 
+---@return string
 function ClassicObject:__tostring()
+  return nil
 end
 
 ---@return ClassicObject
 function ClassicObject:__call(...)
+  return nil
 end
 --endregion
 
 local Table = require('sys.core.util.table')
 
 ---@class BaseObject: ClassicObject
+---@field super BaseObject
 local BaseObject = require('sys.3rd.classic'):extend()
 BaseObject.__name = 'Object'
 

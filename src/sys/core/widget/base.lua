@@ -7,6 +7,8 @@
 local Event = require('sys.core.feature.event')
 
 ---@class BaseWidget: BaseDrawable
+---@field parent BaseWidget
+---@field children BaseWidget[]
 local BaseWidget = require('sys.core.base.drawable'):extend()
 BaseWidget.__name = 'Widget'
 

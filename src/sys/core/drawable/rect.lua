@@ -25,7 +25,6 @@ function Rect:drawSize()
   return self.w * scale.x, self.h * scale.y
 end
 
----@param point Point
 function Rect:testPoint(point)
   local pos = self:drawPosition()
   local w, h = self:drawSize()

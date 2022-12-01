@@ -13,7 +13,6 @@ function Circle:new(radius)
   self.radius = radius or 0
 end
 
----@param point Point
 function Circle:testPoint(point)
   return self:drawPosition():distance(point) <= self:drawRadius()
 end

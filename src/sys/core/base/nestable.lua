@@ -11,12 +11,14 @@ local BaseNestable = require('sys.core.base.object'):extend()
 BaseNestable.__name = 'Nestable'
 
 function BaseNestable:new()
+  ---@type BaseNestable
   self.parent = nil
   ---@type BaseNestable[]
   self.children = {}
 end
 
 ---@param child BaseNestable
+---@return BaseNestable, number
 function BaseNestable:bind(child)
   local index
   local parent = child.parent

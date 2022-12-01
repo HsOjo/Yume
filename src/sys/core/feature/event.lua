@@ -11,7 +11,7 @@ local Event = require('sys.core.base.object'):extend()
 Event.__name = 'Event'
 
 function Event:new()
-  ---@type table<string, function[]>
+  ---@type table<any, function[]>
   self.functions = {}
 end
 
