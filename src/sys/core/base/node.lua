@@ -16,6 +16,7 @@ function Node:new()
 
   ---@type Rect
   self.rect = Rect()
+  self.rect:setVisible(false)
   self:bind(self.rect)
 
   ---@type Drawable
@@ -38,6 +39,7 @@ function Node:setDrawable(drawable)
 end
 
 function Node:draw()
+  Node.super.draw(self)
   local pos = self:drawPosition()
   local scale = self:drawScale()
   love.graphics.draw(self.drawable, pos.x, pos.y, self.radians, scale.x, scale.y, self.origin:unpack())

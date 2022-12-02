@@ -6,8 +6,8 @@
 
 local Mouse = require('sys.core.input.mouse')
 
----@class Button: BaseWidget
-local Button = require('sys.core.widget.base'):extend()
+---@class Button: Widget
+local Button = require('sys.core.base.widget'):extend()
 Button.__name = 'Button'
 
 Button.STATUS_NORMAL = 1
@@ -21,31 +21,31 @@ function Button:new(normal, hover, press, disabled)
   Button.super.new(self)
 
   self.status = nil
-  ---@type table<number, Sprite>
-  self.sprites = {
+  ---@type table<number, Node>
+  self.nodes = {
     [Button.STATUS_NORMAL] = normal,
     [Button.STATUS_HOVER] = hover,
     [Button.STATUS_PRESS] = press,
     [Button.STATUS_DISABLED] = disabled,
   }
 
-  for status, sprite in pairs(self.sprites) do
-    self.sprites[status] = self:bind(sprite)
+  for status, node in pairs(self.nodes) do
+    self.nodes[status] = self:bind(node)
   end
 
   self:setStatus(Button.STATUS_NORMAL)
 end
 
-function Button:currentSprite()
-  return self.sprites[self.status] or self.sprites[Button.STATUS_NORMAL]
+function Button:currentNode()
+  return self.nodes[self.status] or self.nodes[Button.STATUS_NORMAL]
 end
 
 function Button:setStatus(status)
   self.status = status
-  for _, sprite in pairs(self.sprites) do
-    sprite:setVisible(false)
+  for _, node in pairs(self.nodes) do
+    node:setVisible(false)
   end
-  self:currentSprite():setVisible(true)
+  self:currentNode():setVisible(true)
 end
 
 function Button:update()
@@ -53,8 +53,8 @@ function Button:update()
     return
   end
 
-  local current_sprite = self:currentSprite()
-  local is_mouse_cover = current_sprite.rect:testPoint(Mouse.position())
+  local current_node = self:currentNode()
+  local is_mouse_cover = current_node.rect:testPoint(Mouse.position())
 
   if self.status == Button.STATUS_NORMAL then
     if self.focus or is_mouse_cover then
@@ -70,9 +70,11 @@ function Button:update()
     end
   elseif self.status == Button.STATUS_PRESS then
     if Mouse.key(Mouse.KEY_L):isUp() then
-      self:setStatus(Button.STATUS_NORMAL)
       if is_mouse_cover then
         self.event:emit(Button.EVENT_CLICKED)
+        self:setStatus(Button.STATUS_HOVER)
+      else
+        self:setStatus(Button.STATUS_NORMAL)
       end
     end
   end
