@@ -4,12 +4,18 @@
 --- DateTime: 2022/11/19 14:46
 ---
 
----@class Effect: BaseObject
-local Effect = require('sys.core.base.object'):extend()
+---@class Effect: Updatable
+---@field super Updatable
+local Effect = require('sys.core.base.updatable'):extend()
 Effect.__name = 'Effect'
 
 function Effect:new()
+  ---@type function
+  self.draw_process = nil
+end
 
+function Effect:setDrawProcess(process)
+  self.draw_process = process
 end
 
 function Effect:drawBefore()
@@ -18,6 +24,12 @@ end
 
 function Effect:drawAfter()
 
+end
+
+function Effect:drawAlone()
+  self:drawBefore()
+  self.draw_process()
+  self:drawAfter()
 end
 
 return Effect

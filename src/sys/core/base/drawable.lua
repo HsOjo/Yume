@@ -38,6 +38,9 @@ end
 ---@param effect Effect
 function BaseDrawable:applyEffect(effect)
   self.effects[effect:type()] = effect
+  effect:setDrawProcess(function()
+    self:draw()
+  end)
 end
 
 function BaseDrawable:clearEffect(effect_class)

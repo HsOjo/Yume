@@ -4,7 +4,7 @@
 --- DateTime: 2022/11/19 14:46
 ---
 
----@class BlendEffect: BaseEffect
+---@class BlendEffect: Effect
 local BlendEffect = require('sys.core.base.effect'):extend()
 BlendEffect.__name = 'BlendEffect'
 BlendEffect.Mode = {

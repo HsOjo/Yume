@@ -4,7 +4,7 @@
 --- DateTime: 2022/12/1 22:51
 ---
 
----@class FontEffect: BaseEffect
+---@class FontEffect: Effect
 local FontEffect = require('sys.core.base.effect'):extend()
 FontEffect.__name = 'FontEffect'
 
