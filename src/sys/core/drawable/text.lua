@@ -7,13 +7,13 @@
 local Font = require('sys.core.effect.font')
 local NodeText = require('sys.core.drawable.node.text')
 
----@class PixelText: Rotatable
+---@class DynamicText: Rotatable
 ---@field super Rotatable
-local PixelText = require('sys.core.base.rotatable'):extend()
-PixelText.__name = 'PixelText'
+local DynamicText = require('sys.core.base.rotatable'):extend()
+DynamicText.__name = 'DynamicText'
 
-function PixelText:new(font)
-  PixelText.super.new(self)
+function DynamicText:new(font)
+  DynamicText.super.new(self)
 
   ---@type Font
   self.font = nil
@@ -23,15 +23,15 @@ function PixelText:new(font)
   self.text = nil
 end
 
-function PixelText.loadFromTTF(path, size)
-  return PixelText(love.graphics.newFont(path, size))
+function DynamicText.loadFromTTF(path, size)
+  return DynamicText(love.graphics.newFont(path, size))
 end
 
-function PixelText.loadFromImage(path, glyphs)
-  return PixelText(love.graphics.newImageFont(path, glyphs))
+function DynamicText.loadFromImage(path, glyphs)
+  return DynamicText(love.graphics.newImageFont(path, glyphs))
 end
 
-function PixelText:setFont(font)
+function DynamicText:setFont(font)
   if not font then
     return
   end
@@ -40,29 +40,29 @@ function PixelText:setFont(font)
   self:applyEffect(Font(font))
 end
 
-function PixelText:setText(text)
+function DynamicText:setText(text)
   self.text = text
 end
 
 ---@param text string
 ---@return NodeText
-function PixelText:node(text)
+function DynamicText:node(text)
   local font = self.font or love.graphics.getFont()
-  local text = love.graphics.newText(font, text)
-  return NodeText(text)
+  local node = NodeText(love.graphics.newText(font, text))
+  return node
 end
 
-function PixelText:draw()
+function DynamicText:draw()
   local pos = self:drawPosition()
   local scale = self:drawScale()
   love.graphics.print(self.text, pos.x, pos.y, self.radians, scale.x, scale.y, self.origin:unpack())
 end
 
-function PixelText:release()
-  PixelText.super.release(self)
+function DynamicText:release()
+  DynamicText.super.release(self)
   if self.font then
     self.font:release()
   end
 end
 
-return PixelText
+return DynamicText

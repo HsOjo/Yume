@@ -8,27 +8,37 @@ local Key = require('sys.core.input.key')
 local Mouse = require('sys.core.input.mouse')
 local Keyboard = require('sys.core.input.keyboard')
 
+local DynamicText = require('sys.core.drawable.text')
+local BorderEffect = require('sys.core.effect.border')
+
 function love.load()
-  test = require('sys.game.test.drag')()
   io.stdout:setvbuf("no")
 
+  ---@type BaseTest
+  test = require('sys.game.test.drag')()
   test:setScale(2)
-  print(test)
+
+  ---@type DynamicText
+  text = DynamicText()
+  text:setPosition(8, 8)
+  text:applyEffect(BorderEffect(2))
+  test:bind(text)
 end
 
 function love.update(dt)
   test:updateCall(dt)
+  text:setText(string.format(
+    '%s,%s FPS: %s',
+    love.graphics.getWidth(), love.graphics.getHeight(),
+    love.timer.getFPS()
+  ))
+
   Key.callback_updated()
   Mouse.callback_updated()
 end
 
 function love.draw()
   test:drawCall()
-  love.graphics.print(string.format(
-    '%s,%s FPS: %s',
-    love.graphics.getWidth(), love.graphics.getHeight(),
-    love.timer.getFPS()
-  ))
 end
 
 function love.keypressed(key)
