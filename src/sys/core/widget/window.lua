@@ -6,14 +6,14 @@
 
 local Drag = require('sys.core.feature.drag')
 
----@class BaseWindow: BaseWidget
-local BaseWindow = require('sys.core.widget.base'):extend()
-BaseWindow.__name = 'Window'
+---@class Window: Widget
+local Window = require('sys.core.base.widget'):extend()
+Window.__name = 'Window'
 
-function BaseWindow:new()
-  BaseWindow.super.new(self)
+function Window:new()
+  Window.super.new(self)
   self.drag = Drag(self)
   self:bind(self.drag)
 end
 
-return BaseWindow
+return Window

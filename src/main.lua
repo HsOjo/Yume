@@ -15,7 +15,7 @@ function love.load()
   io.stdout:setvbuf("no")
 
   ---@type BaseTest
-  test = require('sys.game.test.drag')()
+  test = require('sys.game.test.ui')()
   test:setScale(2)
 
   ---@type DynamicText
