@@ -4,7 +4,7 @@
 --- DateTime: 2022/11/10 19:56
 ---
 
-local Math = require('sys.core.util.math')
+local Math = require('sys.core.feature.math')
 
 ---@class Rect: BaseShape
 local Rect = require('sys.core.base.shape'):extend()

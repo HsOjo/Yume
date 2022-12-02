@@ -38,7 +38,7 @@ function ClassicObject:__call(...)
 end
 --endregion
 
-local Table = require('sys.core.util.table')
+local Table = require('sys.core.feature.table')
 
 ---@class BaseObject: ClassicObject
 ---@field super BaseObject

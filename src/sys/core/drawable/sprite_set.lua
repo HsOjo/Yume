@@ -8,12 +8,12 @@ local json = require('sys.3rd.json')
 local Point = require('sys.core.feature.point')
 local Sprite = require('sys.core.drawable.node.sprite')
 
----@class ImagePack: BaseDrawable
-local ImagePack = require('sys.core.base.drawable'):extend()
-ImagePack.__name='ImagePack'
+---@class SpriteSet: BaseDrawable
+local SpriteSet = require('sys.core.base.drawable'):extend()
+SpriteSet.__name = 'SpriteSet'
 
-function ImagePack:new()
-  ImagePack.super.new(self)
+function SpriteSet:new()
+  SpriteSet.super.new(self)
 
   ---@type Sprite[]
   self.sprites = {}
@@ -22,15 +22,15 @@ function ImagePack:new()
   self.current_index = nil
 end
 
----@return ImagePack
-function ImagePack.loadFromDirectory(dir, color)
+---@return SpriteSet
+function SpriteSet.loadFromDirectory(dir, color)
   local info = json.decode(love.filesystem.read(dir .. '/info.json'))
   local sprite_dir = string.format('%s/image', dir)
   if color then
     sprite_dir = string.format('%s_color_%d', sprite_dir, color)
   end
 
-  local pack = ImagePack()
+  local pack = SpriteSet()
   ---@param pos table
   for index, pos in ipairs(info) do
     pack.offsets[index] = Point(pos.x, pos.y)
@@ -43,35 +43,34 @@ function ImagePack.loadFromDirectory(dir, color)
   return pack
 end
 
-function ImagePack:setCurrentFrame(index)
+function SpriteSet:setCurrentSprite(index)
   if index and index <= #self.sprites then
     self.current_index = index
   end
 end
 
 ---@return Sprite
-function ImagePack:currentSprite()
+function SpriteSet:currentSprite()
   return self.sprites[self.current_index]
 end
 
-function ImagePack:setOrigin(x, y)
+---@param process fun(sprite:Sprite, index: number)
+function SpriteSet:batch(process)
+  for index, sprite in ipairs(self.sprites) do
+    process(sprite, index)
+  end
+end
+
+function SpriteSet:setOrigin(x, y)
   local origin = Point(x, y)
   local offset_origin = Point()
-  ---@param sprite Sprite
-  for index, sprite in ipairs(self.sprites) do
+  self:batch(function(sprite, index)
     sprite:setOrigin(offset_origin:base(origin):offset(self.offsets[index], -1):unpack())
-  end
+  end)
 end
 
-function ImagePack:setOrientation(radians)
-  ---@param sprite Sprite
-  for _, sprite in pairs(self.sprites) do
-    sprite:setOrientation(radians)
-  end
-end
-
-function ImagePack:draw()
+function SpriteSet:draw()
   self:currentSprite():drawCall()
 end
 
-return ImagePack
+return SpriteSet

@@ -5,10 +5,10 @@
 ---
 
 local Rect = require('sys.core.drawable.shape.rect')
-local Window = require('sys.core.widget.window')
-local Button = require('sys.core.widget.button')
+local Window = require('sys.core.drawable.widget.window')
+local Button = require('sys.core.drawable.widget.button')
 local Color = require('sys.core.effect.color')
-local Text = require('sys.core.drawable.text')
+local Text = require('sys.core.drawable.dynamic_text')
 
 ---@class UITest: BaseTest
 ---@field window Window

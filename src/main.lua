@@ -8,7 +8,7 @@ local Key = require('sys.core.input.key')
 local Mouse = require('sys.core.input.mouse')
 local Keyboard = require('sys.core.input.keyboard')
 
-local DynamicText = require('sys.core.drawable.text')
+local DynamicText = require('sys.core.drawable.dynamic_text')
 local BorderEffect = require('sys.core.effect.border')
 
 function love.load()

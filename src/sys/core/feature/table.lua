@@ -4,8 +4,6 @@
 --- DateTime: 2022/11/19 20:25
 ---
 
-local json = require('sys.3rd.json')
-
 local Table = {}
 Table.unpack = table.unpack or unpack
 Table.pack = table.pack or function(...)

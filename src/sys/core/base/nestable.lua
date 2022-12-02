@@ -4,7 +4,7 @@
 --- DateTime: 2022/11/30 22:01
 ---
 
-local Table = require('sys.core.util.table')
+local Table = require('sys.core.feature.table')
 
 ---@class Nestable: BaseObject
 local Nestable = require('sys.core.base.object'):extend()

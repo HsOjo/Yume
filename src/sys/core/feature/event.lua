@@ -4,7 +4,7 @@
 --- DateTime: 2022/11/19 20:10
 ---
 
-local Table = require('sys.core.util.table')
+local Table = require('sys.core.feature.table')
 
 ---@class Event: BaseObject
 local Event = require('sys.core.base.object'):extend()
