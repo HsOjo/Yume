@@ -16,12 +16,12 @@ function love.load()
 
   ---@type BaseTest
   test = require('sys.game.test.ui')()
-  test:setScale(2)
+  --test:setScale(2)
 
   ---@type DynamicText
   text = DynamicText()
   text:setPosition(8, 8)
-  text:applyEffect(BorderEffect(2))
+  text:applyEffect(BorderEffect(1))
   test:bind(text)
 end
 
