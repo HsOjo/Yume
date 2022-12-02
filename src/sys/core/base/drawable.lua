@@ -6,8 +6,8 @@
 
 local Point = require('sys.core.feature.point')
 
----@class BaseDrawable: BaseUpdatable
----@field super BaseUpdatable
+---@class BaseDrawable: Updatable
+---@field super Updatable
 ---@field parent BaseDrawable
 ---@field children BaseDrawable[]
 local BaseDrawable = require('sys.core.base.updatable'):extend()
@@ -18,7 +18,7 @@ function BaseDrawable:new()
   self.position = Point(0, 0)
   self.scale = Point(1, 1)
 
-  ---@type table<any, BaseEffect>
+  ---@type table<any, Effect>
   self.effects = {}
 
   self.visible = true
@@ -35,9 +35,9 @@ function BaseDrawable:setScale(sx, sy)
   self.scale:change(sx or 1, sy or sx)
 end
 
----@param effect BaseEffect
+---@param effect Effect
 function BaseDrawable:applyEffect(effect)
-  self.effects[effect:getClass()] = effect
+  self.effects[effect:type()] = effect
 end
 
 function BaseDrawable:clearEffect(effect_class)

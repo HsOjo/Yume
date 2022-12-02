@@ -9,7 +9,7 @@ local Mouse = require('sys.core.input.mouse')
 local Event = require('sys.core.feature.event')
 local BaseDrawable = require('sys.core.base.drawable')
 
----@class Drag: BaseUpdatable
+---@class Drag: Updatable
 local Drag = require('sys.core.base.updatable'):extend()
 Drag.__name = 'Drag'
 Drag.EVENT_BEGIN = 1

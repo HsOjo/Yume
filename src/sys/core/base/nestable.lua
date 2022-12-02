@@ -6,20 +6,20 @@
 
 local Table = require('sys.core.util.table')
 
----@class BaseNestable: BaseObject
-local BaseNestable = require('sys.core.base.object'):extend()
-BaseNestable.__name = 'Nestable'
+---@class Nestable: BaseObject
+local Nestable = require('sys.core.base.object'):extend()
+Nestable.__name = 'Nestable'
 
-function BaseNestable:new()
-  ---@type BaseNestable
+function Nestable:new()
+  ---@type Nestable
   self.parent = nil
-  ---@type BaseNestable[]
+  ---@type Nestable[]
   self.children = {}
 end
 
----@param child BaseNestable
----@return BaseNestable, number
-function BaseNestable:bind(child)
+---@param child Nestable
+---@return Nestable, number
+function Nestable:bind(child)
   local index
   local parent = child.parent
   if parent ~= self then
@@ -34,11 +34,11 @@ function BaseNestable:bind(child)
   return child, index
 end
 
-function BaseNestable:release()
+function Nestable:release()
   for _, child in pairs(self.children) do
     child:release()
   end
   self.parent = nil
 end
 
-return BaseNestable
+return Nestable

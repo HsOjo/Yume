@@ -6,8 +6,8 @@
 
 local Event = require('sys.core.feature.event')
 
----@class Timer: BaseUpdatable
----@field super BaseUpdatable
+---@class Timer: Updatable
+---@field super Updatable
 local Timer = require('sys.core.base.updatable'):extend()
 Timer.__name = 'Timer'
 Timer.COUNT_INFINITY = -1

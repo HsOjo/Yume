@@ -45,7 +45,7 @@ local Table = require('sys.core.util.table')
 local BaseObject = require('sys.3rd.classic'):extend()
 BaseObject.__name = 'Object'
 
-function BaseObject:getClass()
+function BaseObject:type()
   return self.__index
 end
 

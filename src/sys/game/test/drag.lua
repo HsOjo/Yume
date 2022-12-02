@@ -4,7 +4,7 @@
 --- DateTime: 2022/11/21 23:39
 ---
 
-local Circle = require('sys.core.drawable.circle')
+local Circle = require('sys.core.drawable.shape.circle')
 local Color = require('sys.core.effect.color')
 local Drag = require('sys.core.feature.drag')
 local Mouse = require('sys.core.input.mouse')

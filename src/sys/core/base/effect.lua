@@ -4,20 +4,20 @@
 --- DateTime: 2022/11/19 14:46
 ---
 
----@class BaseEffect: BaseObject
-local BaseEffect = require('sys.core.base.object'):extend()
-BaseEffect.__name = 'Effect'
+---@class Effect: BaseObject
+local Effect = require('sys.core.base.object'):extend()
+Effect.__name = 'Effect'
 
-function BaseEffect:new()
-
-end
-
-function BaseEffect:drawBefore()
+function Effect:new()
 
 end
 
-function BaseEffect:drawAfter()
+function Effect:drawBefore()
 
 end
 
-return BaseEffect
+function Effect:drawAfter()
+
+end
+
+return Effect

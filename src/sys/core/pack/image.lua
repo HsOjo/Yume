@@ -6,7 +6,7 @@
 
 local json = require('sys.3rd.json')
 local Point = require('sys.core.feature.point')
-local Sprite = require('sys.core.drawable.sprite')
+local Sprite = require('sys.core.drawable.node.sprite')
 
 ---@class ImagePack: BaseDrawable
 local ImagePack = require('sys.core.base.drawable'):extend()
@@ -35,7 +35,7 @@ function ImagePack.loadFromDirectory(dir, color)
   for index, pos in ipairs(info) do
     pack.offsets[index] = Point(pos.x, pos.y)
     pack.sprites[index] = pack:bind(
-      Sprite(string.format('%s/%d.png', sprite_dir, index - 1))
+      Sprite.loadFromFile(string.format('%s/%d.png', sprite_dir, index - 1))
     )
   end
 
