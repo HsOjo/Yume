@@ -4,12 +4,14 @@
 --- DateTime: 2022/11/21 23:29
 ---
 
+local Color = require('sys.core.feature.color')
+
 ---@class BaseTest: BaseDrawable
 local BaseTest = require('sys.core.base.drawable'):extend()
 
 function BaseTest:new()
   BaseTest.super.new(self)
-  love.graphics.setBackgroundColor(0.2, 0.2, 0.2)
+  love.graphics.setBackgroundColor(Color(64, 64, 64):unpack())
 end
 
 return BaseTest

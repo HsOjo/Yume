@@ -15,6 +15,7 @@ function Color:new(r, g, b, a)
   self.a = a or 255
 
   self._mode_01 = false
+  self:convert_01()
 end
 
 function Color:mode_01(mode_01)
