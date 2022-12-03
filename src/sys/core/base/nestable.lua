@@ -20,6 +20,7 @@ end
 ---@param child Nestable
 ---@return Nestable, number
 function Nestable:bind(child)
+  ---@type number
   local index
   local parent = child.parent
   if parent ~= self then

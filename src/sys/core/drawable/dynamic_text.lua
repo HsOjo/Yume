@@ -31,6 +31,7 @@ function DynamicText.loadFromImage(path, glyphs)
   return DynamicText(love.graphics.newImageFont(path, glyphs))
 end
 
+---@param font Font
 function DynamicText:setFont(font)
   if not font then
     return
@@ -40,6 +41,7 @@ function DynamicText:setFont(font)
   self:applyEffect(Font(font))
 end
 
+---@param text string
 function DynamicText:setText(text)
   self.text = text
 end
