@@ -41,6 +41,7 @@ function Mouse.callback_updated()
   Mouse._status.wheel:change(0, 0)
 end
 
+---@param is_touch boolean
 function Mouse.callback_moved(x, y, is_touch)
   Mouse._status.position:change(x, y)
   Mouse._status.is_touch = is_touch

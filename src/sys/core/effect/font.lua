@@ -8,8 +8,8 @@
 local FontEffect = require('sys.core.base.effect'):extend()
 FontEffect.__name = 'FontEffect'
 
+---@param font Font
 function FontEffect:new(font)
-  ---@type Font
   self.font = font
   ---@type Font
   self.prev_font = nil

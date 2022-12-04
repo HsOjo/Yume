@@ -44,6 +44,7 @@ function Table.format(tbl, max_depth, stack, depth)
   max_depth = max_depth or 1
   stack = stack or {}
 
+  ---@type string
   local table_name = tbl.__name
   local table_len = Table.length(tbl)
   local is_list = table_len == #tbl

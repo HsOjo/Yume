@@ -14,6 +14,7 @@ function Effect:new()
   self.draw_process = nil
 end
 
+---@param process function
 function Effect:setDrawProcess(process)
   self.draw_process = process
 end
