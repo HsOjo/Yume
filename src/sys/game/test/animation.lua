@@ -5,7 +5,6 @@
 ---
 
 local ColorEffect = require('sys.core.effect.color')
-local BorderEffect = require('sys.core.effect.border')
 
 local Circle = require('sys.core.drawable.shape.circle')
 local Model = require('sys.core.drawable.model')
@@ -33,12 +32,18 @@ function AnimationTest:new()
   end)
   self.model:setOrigin(250, 380)
   self.model:setPosition(256, 256)
-  self.model:setScale(2, 2)
+  self.model:setScale(-2, 2)
 
   self.model:newAction('stand', true):addFrameRange(10, 13, 5)
   self.model:newAction('walk', true):addFrameRange(14, 23, 10)
 
   self.drag = Drag(self.model)
+  self.drag.event:on(Drag.EVENT_BEGIN, function()
+    self.model:doAction('walk')
+  end)
+  self.drag.event:on(Drag.EVENT_FINISHED, function()
+    self.model:doAction('stand')
+  end)
   self:bind(self.drag)
   self.drag:setTestFunction(function(point)
     local result = false

@@ -7,6 +7,9 @@
 local Math = {}
 
 function Math.inRange(v, s, e)
+  if s > e then
+    s, e = e, s
+  end
   return v >= s and v < e
 end
 
