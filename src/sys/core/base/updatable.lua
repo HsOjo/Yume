@@ -14,15 +14,25 @@ Updatable.__name = 'Updatable'
 function Updatable:new()
   Updatable.super.new(self)
   self.speed = 1
-  self.active = true
+  self.freeze = false
 end
 
 function Updatable:setSpeed(speed)
   self.speed = speed
 end
 
-function Updatable:setActive(active)
-  self.active = active
+function Updatable:setFreeze(freeze)
+  self.freeze = freeze
+end
+
+function Updatable:start()
+  self:setFreeze(false)
+  return self
+end
+
+function Updatable:pause()
+  self:setFreeze(true)
+  return self
 end
 
 function Updatable:update(dt)
@@ -38,7 +48,7 @@ function Updatable:updateChildren(dt)
 end
 
 function Updatable:updateCall(dt)
-  if not self.active then
+  if self.freeze then
     return
   end
 

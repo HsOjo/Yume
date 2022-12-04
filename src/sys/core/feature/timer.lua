@@ -27,23 +27,17 @@ function Timer:new(callback, timeout, count)
 
   self.elapsed_time = 0
   self.finished_count = 0
-  self.is_started = false
+  self:pause()
 end
 
-function Timer:start()
-  self.is_started = true
-  return self
-end
-
-function Timer:pause()
-  self.is_started = false
-  return self
+function Timer:setTimeout(timeout)
+  self.timeout = timeout
 end
 
 function Timer:reset()
-  self.is_started = false
   self.elapsed_time = 0
   self.finished_count = 0
+  self:pause()
   return self
 end
 
@@ -53,18 +47,21 @@ end
 
 function Timer:update(dt)
   Timer.super.update(self, dt)
-  if self.is_started and not self:isFinished() then
-    if self.elapsed_time < self.timeout then
-      self.elapsed_time = self.elapsed_time + dt
-      self.event:emit(Timer.EVENT_UPDATE, self.elapsed_time, self.timeout)
-    else
-      self.elapsed_time = 0
-      self.finished_count = self.finished_count + 1
+  if self:isFinished() then
+    self:pause()
+    return
+  end
 
-      self.event:emit(Timer.EVENT_TIMEOUT, self.count, self.finished_count)
-      if self:isFinished() then
-        self.event:emit(Timer.EVENT_FINISHED)
-      end
+  if self.elapsed_time < self.timeout then
+    self.elapsed_time = self.elapsed_time + dt
+    self.event:emit(Timer.EVENT_UPDATE, self.elapsed_time, self.timeout)
+  else
+    self.elapsed_time = 0
+    self.finished_count = self.finished_count + 1
+
+    self.event:emit(Timer.EVENT_TIMEOUT, self.count, self.finished_count)
+    if self:isFinished() then
+      self.event:emit(Timer.EVENT_FINISHED)
     end
   end
 end
