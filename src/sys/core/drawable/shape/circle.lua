@@ -11,6 +11,8 @@ Circle.__name = 'Circle'
 function Circle:new(radius)
   Circle.super.new(self)
   self.radius = radius or 0
+
+  self._draw_radius = self.radius
 end
 
 function Circle:testPoint(point)
@@ -18,13 +20,18 @@ function Circle:testPoint(point)
 end
 
 function Circle:drawRadius()
-  local scale = self:drawScale()
-  return self.radius * (scale.x + scale.y) * 0.5
+  return self._draw_radius
+end
+
+function Circle:computeDrawScale()
+  Circle.super.computeDrawScale(self)
+  local scale = self._draw_scale
+  self._draw_radius = self.radius * (scale.x + scale.y) * 0.5
 end
 
 function Circle:draw()
-  local pos = self:drawPosition()
-  love.graphics.circle(self.draw_mode, pos.x, pos.y, self:drawRadius())
+  local position = self._draw_position
+  love.graphics.circle(self.draw_mode, position.x, position.y, self._draw_radius)
 end
 
 return Circle

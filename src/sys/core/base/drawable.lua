@@ -23,16 +23,18 @@ function BaseDrawable:new()
 
   self.visible = true
 
-  self._draw_position = Point()
-  self._draw_scale = Point()
+  self._draw_position = self.position:copy()
+  self._draw_scale = self.scale:copy()
 end
 
 function BaseDrawable:setPosition(x, y)
   self.position:change(x or 0, y or 0)
+  self:computeDrawPosition()
 end
 
 function BaseDrawable:setScale(sx, sy)
   self.scale:change(sx or 1, sy or sx)
+  self:computeDrawScale()
 end
 
 ---@param effect Effect
@@ -51,24 +53,46 @@ function BaseDrawable:clearEffect(effect_class)
   end
 end
 
+---@param process fun(effect: Effect)
+function BaseDrawable:batchEffects(process)
+  for _, effect in pairs(self.effects) do
+    process(effect)
+  end
+end
+
 function BaseDrawable:setVisible(visible)
   self.visible = visible
 end
 
 function BaseDrawable:drawPosition()
-  local draw_position = self._draw_position:base(self.position)
-  if self.parent then
-    return draw_position:scale(self.parent:drawScale()):offset(self.parent:drawPosition())
-  end
-  return draw_position
+  return self._draw_position
 end
 
 function BaseDrawable:drawScale()
-  local draw_scale = self._draw_scale:base(self.scale)
+  return self._draw_scale
+end
+
+function BaseDrawable:computeDrawScale()
+  self._draw_scale:base(self.scale)
   if self.parent then
-    return draw_scale:scale(self.parent:drawScale())
+    self._draw_scale:scale(self.parent._draw_scale)
   end
-  return draw_scale
+  ---@param child BaseDrawable
+  self:batchChildren(function(child, index)
+    child:computeDrawScale()
+    child:computeDrawPosition()
+  end, BaseDrawable)
+end
+
+function BaseDrawable:computeDrawPosition()
+  self._draw_position:base(self.position)
+  if self.parent then
+    self._draw_position:scale(self.parent._draw_scale):offset(self.parent._draw_position)
+  end
+  ---@param child BaseDrawable
+  self:batchChildren(function(child, index)
+    child:computeDrawPosition()
+  end, BaseDrawable)
 end
 
 function BaseDrawable:draw()
@@ -76,11 +100,22 @@ function BaseDrawable:draw()
 end
 
 function BaseDrawable:drawChildren()
-  for _, child in pairs(self.children) do
-    if child:is(BaseDrawable) then
-      child:drawCall()
-    end
-  end
+  ---@param child BaseDrawable
+  self:batchChildren(function(child, index)
+    child:drawCall()
+  end, BaseDrawable)
+end
+
+function BaseDrawable:drawBefore()
+  self:batchEffects(function(effect)
+    effect:drawBefore()
+  end)
+end
+
+function BaseDrawable:drawAfter()
+  self:batchEffects(function(effect)
+    effect:drawAfter()
+  end)
 end
 
 function BaseDrawable:drawCall()
@@ -88,13 +123,9 @@ function BaseDrawable:drawCall()
     return
   end
 
-  for _, effect in pairs(self.effects) do
-    effect:drawBefore()
-  end
+  self:drawBefore()
   self:draw()
-  for _, effect in pairs(self.effects) do
-    effect:drawAfter()
-  end
+  self:drawAfter()
 end
 
 return BaseDrawable

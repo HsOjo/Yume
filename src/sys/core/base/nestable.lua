@@ -35,10 +35,19 @@ function Nestable:bind(child)
   return child, index
 end
 
-function Nestable:release()
-  for _, child in pairs(self.children) do
-    child:release()
+---@param process fun(child:any, index: number)
+function Nestable:batchChildren(process, type)
+  for index, child in pairs(self.children) do
+    if not type or child:is(type) then
+      process(child, index)
+    end
   end
+end
+
+function Nestable:release()
+  self:batchChildren(function(child, index)
+    child:release()
+  end)
   self.parent = nil
 end
 

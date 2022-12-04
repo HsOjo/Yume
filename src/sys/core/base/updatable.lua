@@ -40,11 +40,10 @@ function Updatable:update(dt)
 end
 
 function Updatable:updateChildren(dt)
-  for _, child in pairs(self.children) do
-    if child:is(Updatable) then
-      child:update(dt)
-    end
-  end
+  ---@param child Updatable
+  self:batchChildren(function(child, index)
+    child:update(dt)
+  end, Updatable)
 end
 
 function Updatable:updateCall(dt)

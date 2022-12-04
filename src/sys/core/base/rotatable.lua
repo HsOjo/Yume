@@ -16,6 +16,8 @@ function Rotatable:new()
   Rotatable.super.new(self)
   self.radians = 0
   self.origin = Point(0, 0)
+
+  self._draw_radians = self.radians
 end
 
 function Rotatable:setOrientation(radians)
@@ -23,11 +25,18 @@ function Rotatable:setOrientation(radians)
 end
 
 function Rotatable:drawOrientation()
-  local radians = self.radians
+  return self._draw_radians
+end
+
+function Rotatable:computeDrawOrientation()
+  self._draw_radians = self.radians
   if self.parent and self.parent:is(Rotatable) then
-    radians = radians + self.parent:drawOrientation()
+    self._draw_radians = self._draw_radians + self.parent._draw_radians
   end
-  return radians
+  ---@param child Rotatable
+  self:batchChildren(function(child, index)
+    child:computeDrawOrientation()
+  end, Rotatable)
 end
 
 function Rotatable:setOrigin(x, y)
