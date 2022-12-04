@@ -6,10 +6,12 @@
 
 local Timer = require('sys.core.feature.timer')
 
----@class Animation: Rotatable
-local Animation = require('sys.core.base.rotatable'):extend()
+---@class Animation: Updatable
+---@field model Model
+local Animation = require('sys.core.base.updatable'):extend()
+Animation.__name = 'Animation'
 
-function Animation:new()
+function Animation:new(model)
   Animation.super.new(self)
 
   self.timer = Timer(function()
@@ -17,9 +19,7 @@ function Animation:new()
   end, 0)
   self:bind(self.timer)
 
-  ---@type SpriteSet[]
-  self.sprite_sets = {}
-
+  self.model = model
   ---@type table[]
   self.frames = {}
 
@@ -28,35 +28,17 @@ function Animation:new()
   self.index = 0
 end
 
+function Animation:setModel(model)
+  self.model = model
+end
+
 function Animation:setLoop(loop)
   self.loop = loop
 end
 
-function Animation:addSpriteSet(...)
-  local sprite_sets = { ... }
-  for index, sprite_set in pairs(sprite_sets) do
-    self:bind(sprite_set)
-    table.insert(self.sprite_sets, sprite_set)
-  end
-end
-
----@param process fun(sprite_set: SpriteSet, index: number)
-function Animation:batchSpriteSets(process)
-  for index, sprite_set in pairs(self.sprite_sets) do
-    process(sprite_set, index)
-  end
-end
-
-function Animation:setOrigin(x, y)
-  Animation.super.setOrigin(self, x, y)
-  ---@param sprite_set SpriteSet
-  self:batchSpriteSets(function(sprite_set, index)
-    sprite_set:setOrigin(self.origin:unpack())
-  end)
-end
-
-function Animation:addFrame(index, rate)
-  local frame = {}
+---@param meta table
+function Animation:addFrame(index, rate, meta)
+  local frame = meta or {}
   frame.index = index
   frame.rate = rate or 30
   table.insert(self.frames, frame)
@@ -88,11 +70,7 @@ function Animation:nextFrame()
   self.timer:setTimeout(1 / next_frame.rate)
   self.timer:reset():start()
   self.current_frame = next_frame
-  if #self.sprite_sets then
-    for _, sprite_set in pairs(self.sprite_sets) do
-      sprite_set:setCurrentSprite(next_frame.index)
-    end
-  end
+  self.model:setCurrentFrame(next_frame.index)
 end
 
 function Animation:reset()

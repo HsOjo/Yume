@@ -19,7 +19,7 @@ function BorderEffect:new(offset, color)
   BorderEffect.super.new(self)
 
   ---@type ColorEffect
-  self.effect = ColorEffect(Table.unpack(color))
+  self.effect = ColorEffect(Table.unpack(color or {}))
 
   ---@type Point[]
   self.offsets = {
