@@ -42,7 +42,7 @@ end
 function Updatable:updateChildren(dt)
   ---@param child Updatable
   self:batchChildren(function(child, index)
-    child:update(dt)
+    child:updateCall(dt)
   end, Updatable)
 end
 

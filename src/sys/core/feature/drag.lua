@@ -22,6 +22,8 @@ Drag.MODE_VERTICAL = 3
 
 ---@param object BaseDrawable
 function Drag:new(object, mode)
+  Drag.super.new(self)
+
   self.event = Event()
   self.mode = mode or Drag.MODE_FREE
   self.object = object
