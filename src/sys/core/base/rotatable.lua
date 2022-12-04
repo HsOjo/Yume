@@ -22,6 +22,7 @@ end
 
 function Rotatable:setOrientation(radians)
   self.radians = radians
+  self:computeDrawOrientation()
 end
 
 function Rotatable:drawOrientation()
