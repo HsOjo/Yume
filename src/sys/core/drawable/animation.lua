@@ -41,7 +41,7 @@ function Animation:addSpriteSet(...)
 end
 
 ---@param process fun(sprite_set: SpriteSet, index: number)
-function Animation:batchSpriteSet(process)
+function Animation:batchSpriteSets(process)
   for index, sprite_set in pairs(self.sprite_sets) do
     process(sprite_set, index)
   end

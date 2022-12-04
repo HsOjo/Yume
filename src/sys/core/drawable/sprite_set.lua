@@ -56,7 +56,7 @@ function SpriteSet:currentSprite()
 end
 
 ---@param process fun(sprite:Sprite, index: number)
-function SpriteSet:batchSprite(process)
+function SpriteSet:batchSprites(process)
   for index, sprite in ipairs(self.sprites) do
     process(sprite, index)
   end
@@ -65,7 +65,7 @@ end
 function SpriteSet:setOrigin(x, y)
   SpriteSet.super.setOrigin(self, x, y)
   local offset_origin = Point()
-  self:batchSprite(function(sprite, index)
+  self:batchSprites(function(sprite, index)
     sprite:setOrigin(offset_origin:base(self.origin):offset(self.offsets[index], -1):unpack())
   end)
 end

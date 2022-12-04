@@ -23,9 +23,9 @@ function AnimationTest:new()
     SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000b', 0),
     SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000x', 0)
   )
-  self.animation:batchSpriteSet(function(sprite_set, index)
+  self.animation:batchSpriteSets(function(sprite_set, index)
     sprite_set:setOrigin(250, 380)
-    sprite_set:batchSprite(function(sprite, index)
+    sprite_set:batchSprites(function(sprite, index)
       sprite.rect:setVisible(true)
     end)
   end)
@@ -37,7 +37,7 @@ function AnimationTest:new()
   self:bind(self.drag)
   self.drag:setTestFunction(function(point)
     local result = false
-    self.animation:batchSpriteSet(function(sprite_set, index)
+    self.animation:batchSpriteSets(function(sprite_set, index)
       if not result then
         result = result or sprite_set:currentSprite().rect:testPoint(point)
       end
