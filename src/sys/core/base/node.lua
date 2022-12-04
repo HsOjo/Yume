@@ -42,7 +42,8 @@ function Node:draw()
   Node.super.draw(self)
   local pos = self:drawPosition()
   local scale = self:drawScale()
-  love.graphics.draw(self.drawable, pos.x, pos.y, self.radians, scale.x, scale.y, self.origin:unpack())
+  local radians = self:drawOrientation()
+  love.graphics.draw(self.drawable, pos.x, pos.y, radians, scale.x, scale.y, self.origin:unpack())
 end
 
 function Node:release()

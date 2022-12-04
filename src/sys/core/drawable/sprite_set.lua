@@ -8,8 +8,8 @@ local json = require('sys.3rd.json')
 local Point = require('sys.core.feature.point')
 local Sprite = require('sys.core.drawable.node.sprite')
 
----@class SpriteSet: BaseDrawable
-local SpriteSet = require('sys.core.base.drawable'):extend()
+---@class SpriteSet: Rotatable
+local SpriteSet = require('sys.core.base.rotatable'):extend()
 SpriteSet.__name = 'SpriteSet'
 
 function SpriteSet:new()
@@ -19,6 +19,7 @@ function SpriteSet:new()
   self.sprites = {}
   ---@type Point[]
   self.offsets = {}
+
   self.current_index = nil
 end
 
@@ -30,17 +31,17 @@ function SpriteSet.loadFromDirectory(dir, color)
     sprite_dir = string.format('%s_color_%d', sprite_dir, color)
   end
 
-  local pack = SpriteSet()
+  local sprite_set = SpriteSet()
   ---@param pos table
   for index, pos in ipairs(info) do
-    pack.offsets[index] = Point(pos.x, pos.y)
-    pack.sprites[index] = pack:bind(
+    sprite_set.offsets[index] = Point(pos.x, pos.y)
+    sprite_set.sprites[index] = sprite_set:bind(
       Sprite.loadFromFile(string.format('%s/%d.png', sprite_dir, index - 1))
     )
   end
 
-  pack:setCurrentFrame(1)
-  return pack
+  sprite_set:setCurrentSprite(1)
+  return sprite_set
 end
 
 function SpriteSet:setCurrentSprite(index)
@@ -55,17 +56,17 @@ function SpriteSet:currentSprite()
 end
 
 ---@param process fun(sprite:Sprite, index: number)
-function SpriteSet:batch(process)
+function SpriteSet:batchSprite(process)
   for index, sprite in ipairs(self.sprites) do
     process(sprite, index)
   end
 end
 
 function SpriteSet:setOrigin(x, y)
-  local origin = Point(x, y)
+  SpriteSet.super.setOrigin(self, x, y)
   local offset_origin = Point()
-  self:batch(function(sprite, index)
-    sprite:setOrigin(offset_origin:base(origin):offset(self.offsets[index], -1):unpack())
+  self:batchSprite(function(sprite, index)
+    sprite:setOrigin(offset_origin:base(self.origin):offset(self.offsets[index], -1):unpack())
   end)
 end
 

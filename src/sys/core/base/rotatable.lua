@@ -8,6 +8,7 @@ local Point = require('sys.core.feature.point')
 
 ---@class Rotatable: BaseDrawable
 ---@field super BaseDrawable
+---@field parent Rotatable
 local Rotatable = require('sys.core.base.drawable'):extend()
 Rotatable.__name = 'Rotatable'
 
@@ -19,6 +20,14 @@ end
 
 function Rotatable:setOrientation(radians)
   self.radians = radians
+end
+
+function Rotatable:drawOrientation()
+  local radians = self.radians
+  if self.parent and self.parent:is(Rotatable) then
+    radians = radians + self.parent:drawOrientation()
+  end
+  return radians
 end
 
 function Rotatable:setOrigin(x, y)
