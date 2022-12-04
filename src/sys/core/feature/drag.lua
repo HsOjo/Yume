@@ -28,6 +28,17 @@ function Drag:new(object, mode)
 
   ---@type BaseShape[]
   self.shapes = {}
+
+  ---@param point Point
+  self.test_function = function(point)
+    for _, shape in pairs(self.shapes) do
+      if shape:testPoint(point) then
+        return true
+      end
+    end
+    return false
+  end
+
   self.start_position = Point()
   self.new_position = Point()
   self.mouse_start_position = Point()
@@ -40,6 +51,11 @@ function Drag:addShape(shape)
   return shape
 end
 
+---@param test_function fun(point: Point)
+function Drag:setTestFunction(test_function)
+  self.test_function = test_function
+end
+
 function Drag:cancel()
   self.is_dragging = false
   if self.start_position then
@@ -50,14 +66,11 @@ end
 function Drag:update()
   if not self.is_dragging then
     if Mouse.key(Mouse.KEY_L):isDown() then
-      for _, shape in pairs(self.shapes) do
-        if shape:testPoint(Mouse.position()) then
-          self.start_position:base(self.object.position)
-          self.mouse_start_position:base(Mouse.position())
-          self.is_dragging = true
-          self.event:emit(Drag.EVENT_BEGIN)
-          break
-        end
+      if self.test_function(Mouse.position()) then
+        self.start_position:base(self.object.position)
+        self.mouse_start_position:base(Mouse.position())
+        self.is_dragging = true
+        self.event:emit(Drag.EVENT_BEGIN)
       end
     end
   else
