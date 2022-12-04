@@ -8,9 +8,15 @@ local Key = require('sys.core.input.key')
 local Mouse = require('sys.core.input.mouse')
 local Keyboard = require('sys.core.input.keyboard')
 
-function love.load()
+function love.load(args)
   io.stdout:setvbuf("no")
   test = require('sys.game.test.ui')()
+  ---@param arg string
+  for _, arg in ipairs(args) do
+    if arg:find('mobdebug') then
+      load(arg)()
+    end
+  end
 end
 
 function love.update(dt)
