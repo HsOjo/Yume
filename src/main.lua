@@ -18,6 +18,7 @@ function love.load(args)
   end
 
   test = require('sys.game.test.animation')()
+  test:setScale(2 / love.graphics.getDPIScale())
 end
 
 function love.update(dt)
