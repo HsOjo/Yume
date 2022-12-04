@@ -10,13 +10,14 @@ local Keyboard = require('sys.core.input.keyboard')
 
 function love.load(args)
   io.stdout:setvbuf("no")
-  test = require('sys.game.test.ui')()
   ---@param arg string
   for _, arg in ipairs(args) do
     if arg:find('mobdebug') then
       load(arg)()
     end
   end
+
+  test = require('sys.game.test.animation')()
 end
 
 function love.update(dt)
