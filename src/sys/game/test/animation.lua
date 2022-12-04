@@ -4,6 +4,8 @@
 --- DateTime: 2022/11/21 23:37
 ---
 
+local Color = require('sys.core.effect.color')
+
 local Circle = require('sys.core.drawable.shape.circle')
 local Animation = require('sys.core.drawable.animation')
 local SpriteSet = require('sys.core.drawable.sprite_set')
@@ -23,9 +25,9 @@ function AnimationTest:new()
     SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000b', 0),
     SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000x', 0)
   )
-  self.animation:batchSpriteSets(function(sprite_set, index)
+  self.animation:batchSpriteSets(function(sprite_set, _)
     sprite_set:setOrigin(250, 380)
-    sprite_set:batchSprites(function(sprite, index)
+    sprite_set:batchSprites(function(sprite, _)
       sprite.rect:setVisible(true)
     end)
   end)
@@ -46,6 +48,7 @@ function AnimationTest:new()
   end)
 
   self.pos_indicator = Circle(2)
+  self.pos_indicator:applyEffect(Color(255, 0, 0))
   self:bind(self.pos_indicator)
 end
 
