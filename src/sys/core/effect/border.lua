@@ -4,6 +4,8 @@
 --- DateTime: 2022/12/2 23:41
 ---
 
+local Table = require('sys.core.feature.table')
+
 local ColorEffect = require('sys.core.effect.color')
 local Point = require('sys.core.feature.point')
 
@@ -12,12 +14,12 @@ local Point = require('sys.core.feature.point')
 local BorderEffect = require('sys.core.base.effect'):extend()
 
 ---@param offset number
----@param color Color
+---@param color number[]
 function BorderEffect:new(offset, color)
   BorderEffect.super.new(self)
 
   ---@type ColorEffect
-  self.effect = ColorEffect(color)
+  self.effect = ColorEffect(Table.unpack(color))
 
   ---@type Point[]
   self.offsets = {

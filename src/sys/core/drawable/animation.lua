@@ -50,7 +50,7 @@ end
 function Animation:setOrigin(x, y)
   Animation.super.setOrigin(self, x, y)
   ---@param sprite_set SpriteSet
-  self.animation:batchSpriteSet(function(sprite_set, index)
+  self:batchSpriteSets(function(sprite_set, index)
     sprite_set:setOrigin(self.origin:unpack())
   end)
 end
