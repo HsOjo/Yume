@@ -15,6 +15,8 @@ BaseDrawable.__name = 'Drawable'
 
 function BaseDrawable:new()
   BaseDrawable.super.new(self)
+  self:setFreeze(true)
+
   self.position = Point(0, 0)
   self.scale = Point(1, 1)
 

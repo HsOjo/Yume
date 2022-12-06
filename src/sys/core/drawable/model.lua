@@ -12,6 +12,7 @@ Model.__name = 'Model'
 
 function Model:new()
   Model.super.new(self)
+  self:setFreeze(false)
 
   ---@type SpriteSet[]
   self.sprite_sets = {}

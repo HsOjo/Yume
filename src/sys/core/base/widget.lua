@@ -14,6 +14,8 @@ Widget.__name = 'Widget'
 
 function Widget:new()
   Widget.super.new(self)
+  self:setFreeze(false)
+
   self.focus = false
   self.event = Event()
 end
