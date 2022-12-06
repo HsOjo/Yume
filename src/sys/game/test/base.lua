@@ -13,7 +13,10 @@ local BaseTest = require('sys.core.base.drawable'):extend()
 function BaseTest:new()
   BaseTest.super.new(self, true)
   self:setFreeze(false)
-  self:bind(Indicator())
+
+  self.indicator = Indicator()
+  self:bind(self.indicator)
+
   love.graphics.setBackgroundColor(Color(64, 64, 64):unpack())
 end
 
