@@ -6,7 +6,6 @@
 
 local Key = require('sys.core.input.key')
 
----@class Keyboard
 local Keyboard = {
   KEY_PREFIX = 'keyboard_',
 }

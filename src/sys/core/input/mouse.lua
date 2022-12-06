@@ -7,7 +7,6 @@
 local Key = require('sys.core.input.key')
 local Point = require('sys.core.feature.point')
 
----@class Mouse
 local Mouse = {
   KEY_PREFIX = 'mouse_',
   KEY_L = '1',

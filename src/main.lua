@@ -7,6 +7,7 @@
 local Key = require('sys.core.input.key')
 local Mouse = require('sys.core.input.mouse')
 local Keyboard = require('sys.core.input.keyboard')
+local Joystick = require('sys.core.input.joystick')
 
 function love.load(args)
   io.stdout:setvbuf("no")
@@ -26,6 +27,7 @@ function love.update(dt)
 
   Key.callback_updated()
   Mouse.callback_updated()
+  Joystick.callback_updated()
 end
 
 function love.draw()
@@ -33,20 +35,20 @@ function love.draw()
 end
 
 function love.keypressed(key)
-  Key.callback_pressed(Keyboard.KEY_PREFIX .. key)
+  Key.callback_pressed(Keyboard.key(key))
 end
 
 function love.keyreleased(key)
-  Key.callback_released(Keyboard.KEY_PREFIX .. key)
+  Key.callback_released(Keyboard.key(key))
 end
 
 function love.mousepressed(x, y, button, istouch, presses)
-  Key.callback_pressed(Mouse.KEY_PREFIX .. button)
+  Key.callback_pressed(Mouse.key(button))
   Mouse.callback_moved(x, y, istouch)
 end
 
 function love.mousereleased(x, y, button, istouch, presses)
-  Key.callback_released(Mouse.KEY_PREFIX .. button)
+  Key.callback_released(Mouse.key(button))
   Mouse.callback_moved(x, y, istouch)
 end
 
@@ -56,4 +58,24 @@ end
 
 function love.wheelmoved(x, y)
   Mouse.callback_wheel_moved(x, y)
+end
+
+---@param joystick Joystick
+function love.joystickpressed(joystick, button)
+  Key.callback_pressed(Joystick.key(button, joystick:getGUID()))
+end
+
+---@param joystick Joystick
+function love.joystickreleased(joystick, button)
+  Key.callback_released(Joystick.key(button, joystick:getGUID()))
+end
+
+---@param joystick Joystick
+function love.joystickadded(joystick)
+  Joystick.callback_added(joystick)
+end
+
+---@param joystick Joystick
+function love.joystickremoved(joystick)
+  Joystick.callback_removed(joystick)
 end

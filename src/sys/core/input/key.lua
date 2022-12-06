@@ -55,8 +55,7 @@ function Key.callback_updated()
   end
 end
 
-function Key.callback_pressed(code)
-  local key = Key.get(code)
+function Key.callback_pressed(key)
   if not key.is_press then
     Key._prev_code = Key._last_code
     Key._last_code = code
@@ -68,8 +67,7 @@ function Key.callback_pressed(code)
   key.is_press = true
 end
 
-function Key.callback_released(code)
-  local key = Key.get(code)
+function Key.callback_released(key)
   key.is_press = false
   key.is_up = true
 end
