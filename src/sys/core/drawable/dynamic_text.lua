@@ -20,7 +20,7 @@ function DynamicText:new(font)
   self:setFont(font)
 
   ---@type string
-  self.text = nil
+  self.text = ''
 end
 
 function DynamicText.loadFromTTF(path, size)

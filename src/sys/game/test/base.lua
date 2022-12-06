@@ -5,29 +5,14 @@
 ---
 
 local Color = require('sys.core.feature.color')
-local DynamicText = require('sys.core.drawable.dynamic_text')
-local BorderEffect = require('sys.core.effect.border')
+local Indicator = require('sys.game.test.indicator')
 
 ---@class BaseTest: BaseDrawable
 local BaseTest = require('sys.core.base.drawable'):extend()
 
 function BaseTest:new()
-  BaseTest.super.new(self)
-
-  local indicator = DynamicText()
-  indicator:setPosition(8, 8)
-  indicator:applyEffect(BorderEffect(1))
-
-  ---@param this DynamicText
-  indicator.update = function(this, dt)
-    this:setText(string.format(
-      '%s,%s FPS: %s',
-      love.graphics.getWidth(), love.graphics.getHeight(),
-      love.timer.getFPS()
-    ))
-  end
-
-  self:bind(indicator)
+  BaseTest.super.new(self, true)
+  self:bind(Indicator())
   love.graphics.setBackgroundColor(Color(64, 64, 64):unpack())
 end
 
