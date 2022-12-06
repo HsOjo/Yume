@@ -44,6 +44,23 @@ function Nestable:batchChildren(process, type)
   end
 end
 
+---@param condition fun(object: any)
+function Nestable:countChildren(type, condition)
+  local count = 0
+  ---@param child Nestable
+  self:batchChildren(function(child, index)
+    if not type or child:is(type) then
+      if not condition or condition(child) then
+        count = count + 1
+        if child:is(Nestable) then
+          count = count + child:countChildren(type, condition)
+        end
+      end
+    end
+  end)
+  return count
+end
+
 function Nestable:release()
   self:batchChildren(function(child, index)
     child:release()
