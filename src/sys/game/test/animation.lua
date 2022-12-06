@@ -20,10 +20,10 @@ function AnimationTest:new()
   self.model = Model()
   self:bind(self.model)
   self.model:addSpriteSet(
-    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000x', 0),
-    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000b', 0),
-    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_avatar_skin/sg_body80100'),
-    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000a', 0)
+    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000x', 'color_0'),
+    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000b', 'color_0'),
+    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_avatar_skin/sg_body80100', 'waifu_2x'),
+    SpriteSet.loadFromDirectory('res/sprite_character_swordman_atequipment_weapon_katana/(tn)sg_katana0000a', 'color_0')
   )
   self.model:batchSpriteSets(function(sprite_set, _)
     sprite_set:batchSprites(function(sprite, _)
@@ -31,8 +31,12 @@ function AnimationTest:new()
     end)
   end)
   self.model:setOrigin(250, 380)
+  self.model.sprite_sets[3]:setOffsetScale(2)
+  self.model.sprite_sets[3]:setScale(0.5, 0.5)
+  self.model.sprite_sets[3]:setOrigin(250, 380)
+
   self.model:setPosition(256, 256)
-  self.model:setScale(-2, 2)
+  self.model:setScale(1.5, 1.5)
 
   self.model:newAction('stand', true):addFrameRange(10, 13, 5)
   self.model:newAction('walk', true):addFrameRange(14, 23, 10)

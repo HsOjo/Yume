@@ -9,6 +9,7 @@ local Point = require('sys.core.feature.point')
 local Sprite = require('sys.core.drawable.node.sprite')
 
 ---@class SpriteSet: Rotatable
+---@field super Rotatable
 local SpriteSet = require('sys.core.base.rotatable'):extend()
 SpriteSet.__name = 'SpriteSet'
 
@@ -19,16 +20,17 @@ function SpriteSet:new()
   self.sprites = {}
   ---@type Point[]
   self.offsets = {}
+  self.offset_scale = 1
 
   self.current_index = nil
 end
 
 ---@return SpriteSet
-function SpriteSet.loadFromDirectory(dir, color)
+function SpriteSet.loadFromDirectory(dir, category)
   local info = json.decode(love.filesystem.read(dir .. '/info.json'))
   local sprite_dir = string.format('%s/image', dir)
-  if color then
-    sprite_dir = string.format('%s_color_%d', sprite_dir, color)
+  if category then
+    sprite_dir = string.format('%s_%s', sprite_dir, category)
   end
 
   local sprite_set = SpriteSet()
@@ -42,6 +44,11 @@ function SpriteSet.loadFromDirectory(dir, color)
 
   sprite_set:setCurrentSprite(1)
   return sprite_set
+end
+
+---@param scale number
+function SpriteSet:setOffsetScale(scale)
+  self.offset_scale = scale
 end
 
 function SpriteSet:setCurrentSprite(index)
@@ -63,10 +70,11 @@ function SpriteSet:batchSprites(process)
 end
 
 function SpriteSet:setOrigin(x, y)
-  SpriteSet.super.setOrigin(self, x, y)
+  SpriteSet.super.setOrigin(self, x * self.offset_scale, y * self.offset_scale)
+
   local offset_origin = Point()
   self:batchSprites(function(sprite, index)
-    sprite:setOrigin(offset_origin:base(self.origin):offset(self.offsets[index], -1):unpack())
+    sprite:setOrigin(offset_origin:base(self.origin):offset(self.offsets[index], -self.offset_scale):unpack())
   end)
 end
 
