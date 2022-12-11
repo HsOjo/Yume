@@ -23,8 +23,8 @@ end
 
 function MiscTest:update(dt)
   MiscTest.super.update(self, dt)
-  self.indicator:setText(string.format(
-    '%s\n\n%s', self.indicator.text, Table.format(Joystick._status, 3)
+  self.indicator:appendObject(string.format(
+    '\n' .. Table.format(Joystick._status, 3)
   ))
 end
 

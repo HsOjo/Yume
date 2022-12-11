@@ -20,14 +20,17 @@ function Indicator:new()
 end
 
 function Indicator:update(dt)
-  local graphics = string.format(
-    'FPS: %s\nWindow: %s, %s',
-    love.timer.getFPS(),
-    love.graphics.getWidth(), love.graphics.getHeight()
-  )
-
-  local objects = string.format(
-    'Total: %s, Updatable: %s, Drawable: %s',
+  self:setText('')
+  self:appendObject(string.format(
+    'Window: %s, %s (DPI Scale: %s)',
+    love.graphics.getWidth(), love.graphics.getHeight(), love.graphics.getDPIScale()
+  ))
+  self:appendObject(string.format(
+    'FPS: %s Uptime: %s\nDeltaTime: %s',
+    love.timer.getFPS(), math.floor(love.timer.getTime(), 2), love.timer.getAverageDelta()
+  ))
+  self:appendObject(string.format(
+    'Objects Total: %s Updatable: %s Drawable: %s',
     self.parent:countChildren(),
     self.parent:countChildren(Updatable, function(object)
       return not object.freeze
@@ -35,9 +38,15 @@ function Indicator:update(dt)
     self.parent:countChildren(Drawable, function(object)
       return object.visible
     end)
-  )
+  ))
+end
 
-  self:setText(string.format('%s\n%s', graphics, objects))
+function Indicator:appendObject(obj)
+  local content = tostring(obj)
+  if self.text ~= '' then
+    content = string.format('%s\n%s', self.text, content)
+  end
+  self:setText(content)
 end
 
 return Indicator
