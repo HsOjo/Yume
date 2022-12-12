@@ -47,8 +47,11 @@ function SpriteSet.loadFromDirectory(dir, category)
 end
 
 ---@param scale number
-function SpriteSet:setOffsetScale(scale)
+function SpriteSet:setOffsetScale(scale, fix_scale)
   self.offset_scale = scale
+  if fix_scale then
+    self:setScale(1 / scale)
+  end
 end
 
 function SpriteSet:setCurrentSprite(index)
