@@ -9,14 +9,86 @@
 ---@field drawable Image
 local Sprite = require('sys.core.base.node'):extend()
 Sprite.__name = 'Sprite'
+Sprite.WrapMode = {
+  ['Clamp'] = 'clamp',
+  ['Repeat'] = 'repeat',
+  ['ClampZero'] = 'clampzero',
+  ['MirroredRepeat'] = 'mirroredrepeat',
+}
 
 function Sprite:new(image)
   Sprite.super.new(self)
+
+  ---@type Image|Texture
+  self.image = image
   self:setDrawable(image)
+
+  ---@type Quad
+  self.quad = nil
 end
 
 function Sprite.loadFromFile(path)
   return Sprite(love.graphics.newImage(path))
+end
+
+function Sprite:setWrapMode(horizontal, vertical)
+  vertical = vertical or horizontal
+  self.image:setWrap(horizontal, vertical)
+end
+
+---@return number
+function Sprite:getWidth(no_quad)
+  if not self.quad or no_quad then
+    return Sprite.super.getWidth(self)
+  end
+  local w, _ = self:getSize()
+  return w
+end
+
+---@return number
+function Sprite:getHeight(no_quad)
+  if not self.quad or no_quad then
+    return Sprite.super.getHeight(self)
+  end
+  local _, h = self:getSize()
+  return h
+end
+
+function Sprite:getSize(no_quad)
+  if not self.quad or no_quad then
+    return self:getWidth(no_quad), self:getHeight(no_quad)
+  end
+  local _, _, w, h = self.quad:getViewport()
+  return w, h
+end
+
+function Sprite:setQuad(x, y, w, h)
+  x = x or 0
+  y = y or 0
+  w = w or self:getWidth(true)
+  h = h or self:getHeight(true)
+
+  if not self.quad then
+    self.quad = love.graphics.newQuad(x, y, w, h, w, h)
+  else
+    self.quad:setViewport(x, y, w, h)
+  end
+
+  self.rect:setSize(w, h)
+end
+
+function Sprite:resize(w, h)
+  self:setQuad(nil, nil, w, h)
+end
+
+function Sprite:draw()
+  if not self.quad then
+    Sprite.super.draw(self)
+  else
+    Sprite.super.super.draw(self)
+    local position, scale, radians = self._draw_position, self._draw_scale, self._draw_radians
+    love.graphics.draw(self.drawable, self.quad, position.x, position.y, radians, scale.x, scale.y, self.origin:unpack())
+  end
 end
 
 return Sprite

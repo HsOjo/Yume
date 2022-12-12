@@ -35,7 +35,21 @@ function Node:setDrawable(drawable)
   end
 
   self.drawable = drawable
-  self.rect:setSize(drawable:getWidth(), drawable:getHeight())
+  self.rect:setSize(self:getSize())
+end
+
+---@return number
+function Node:getWidth()
+    return self.drawable:getWidth()
+end
+
+---@return number
+function Node:getHeight()
+    return self.drawable:getHeight()
+end
+
+function Node:getSize()
+    return self:getWidth(), self:getHeight()
 end
 
 function Node:draw()
