@@ -18,7 +18,10 @@ function love.load(args)
     end
   end
 
-  test = require('sys.game.test.misc')()
+  ---@type string
+  local last_arg = args[#args]
+  local test_module = last_arg:match('test:(.+)') or 'base'
+  test = require(string.format('sys.game.test.%s', test_module))()
   test:setScale(2 / love.graphics.getDPIScale())
 end
 
