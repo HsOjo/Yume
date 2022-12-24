@@ -71,25 +71,27 @@ end
 ---@return number radians of two points.
 function Point:angel(point)
   local pi = math.pi
-  if self.x == point.x then
-    if self.y > point.y then
+  local p1, p2 = self, point
+  
+  if p2.x == p1.x then
+    if p2.y > p1.y then
       return pi * 0.5
     else
       return pi * 1.5
     end
-  elseif self.y == point.y then
-    if self.x > point.x then
+  elseif p2.y == p1.y then
+    if p2.x > p1.x then
       return 0
     else
       return pi
     end
   else
-    local radians = math.atan((point.y - self.y) / (point.x - self.x))
-    if self.x < point.x and self.y > point.y then
+    local radians = math.atan((p1.y - p2.y) / (p1.x - p2.x))
+    if p2.x < p1.x and p2.y > p1.y then
       return radians + pi
-    elseif self.x < point.x and self.y < point.y then
+    elseif p2.x < p1.x and p2.y < p1.y then
       return radians + pi
-    elseif self.x > point.x and self.y < point.y then
+    elseif p2.x > p1.x and p2.y < p1.y then
       return radians + 2 * pi
     else
       return radians
