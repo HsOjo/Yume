@@ -44,13 +44,20 @@ function Drag:new(object, mode)
   self.start_position = Point()
   self.new_position = Point()
   self.mouse_start_position = Point()
+
   self.is_dragging = false
+  self.smooth_moving = false
 end
 
 ---@param shape BaseShape
 function Drag:addShape(shape)
   table.insert(self.shapes, shape)
   return shape
+end
+
+---@param smooth_moving boolean
+function Drag:setSmoothMoving(smooth_moving)
+  self.smooth_moving = smooth_moving
 end
 
 ---@param test_function fun(point: Point)
@@ -92,9 +99,24 @@ function Drag:update()
       new_position.x = self.start_position.x
     end
 
-    self.event:emit(Drag.EVENT_MOVING, new_position)
-    self.object:setPosition(new_position:unpack())
+    if self.smooth_moving then
+      local distance = self.object.position:distance(new_position)
+      if distance > self.speed then
+        self.object.position:move(
+          self.object.position:angel(new_position),
+          distance * 32 * self.speed * love.timer.getAverageDelta()
+        )
+        self.object:computeDrawPosition()
+      else
+        self.object:setPosition(new_position:unpack())
+      end
+    else
+      self.object:setPosition(new_position:unpack())
+    end
+    self.event:emit(Drag.EVENT_MOVING, self.object.position)
+
     if Mouse.key(Mouse.KEY_L):isUp() then
+      self.object:setPosition(new_position:unpack())
       self.is_dragging = false
       self.event:emit(Drag.EVENT_FINISHED, new_position)
     end
